@@ -121,7 +121,7 @@ export default function MainPanel({
           placeholder={
             selectedQuestion
               ? 'Escribe tu respuesta...'
-              : 'Pregunta lo que quieras investigar...'
+              : 'Descríbete...'
           }
           listening={listening}
           onToggleListening={() => setListening((prev) => !prev)}
