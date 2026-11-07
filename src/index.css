@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink text-white font-inter antialiased;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #8b5cf6 #050505;
+  }
+
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: #8b5cf6;
+    border-radius: 9999px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #050505;
+  }
+}
+
+@layer components {
+  .glow-card {
+    @apply rounded-2xl border border-primary/25 bg-white/[0.02] shadow-[0_0_24px_rgba(139,92,246,0.12)];
+  }
+}

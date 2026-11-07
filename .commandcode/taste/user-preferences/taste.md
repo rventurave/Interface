@@ -1,0 +1,21 @@
+# User Preferences
+- Prefers modular architecture with separated components. Confidence: 0.9
+- Prefers responsive interfaces. Confidence: 0.8
+- Prefers React + TypeScript + Tailwind CSS for frontend web interfaces. Confidence: 0.8
+- Prefers React Flow (@xyflow/react) for interactive graph visualizations. Confidence: 0.8
+- Prefers prioritizing visual reproduction of a reference first, using mock data while keeping integration points ready for later AI wiring. Confidence: 0.8
+- Communicates in Spanish. Confidence: 0.9
+- Prefers sharing UI/content requirements via screenshots rather than typing them out. Confidence: 0.7
+- Prefers automatic reordering/layout of graph nodes so they do not overlap as the graph grows. Confidence: 0.8
+- Prefers force-directed network graphs where nodes connect to each other by common relationships (e.g., shared tags), with edges derived automatically from node data rather than maintained manually. Confidence: 0.8
+- Prefers circular graph nodes with the label above and the score inside, with directed arrow edges between related nodes. Confidence: 0.7
+- Prefers preserving existing functionality when adopting a new visual style or feature. Confidence: 0.7
+- Prefers graph edges to connect at dynamic points around node circles (rotating toward the connected neighbor) rather than at a fixed single port. Confidence: 0.8
+- Prefers avoiding a redundant central "self" hub node; instead frames the whole graph with a labeled container (e.g., "Tú" in a corner). Confidence: 0.7
+- Prefers confirming understanding of a request and getting approval before starting implementation. Confidence: 0.8
+- Prefers a minimap (overview) in graph visualizations to help locate and orient within the graph. Confidence: 0.9
+- Prefers direct node–edge–node relationships between individual graph nodes (linked by shared characteristics), not connections routed through broader intermediary domain/area nodes. Confidence: 0.7
+- Prefers organizing profile graph items into three categories: preferences (preferencias), experience (experiencia), and related knowledge (conocimiento relacionado). Confidence: 0.6
+- Prefers single-select behavior for interactive cards (only one selectable at a time, click again to deselect). Confidence: 0.7
+- Prefers animated fade-out when a UI item is replaced after an action (e.g., an answered question fades and a new one appears). Confidence: 0.6
+- Prefers subtle, understated secondary controls (e.g., a small reload icon placed next to a section title). Confidence: 0.7
