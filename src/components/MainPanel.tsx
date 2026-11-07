@@ -7,9 +7,13 @@ import { pickQuestions, type Question } from '../data/questions';
 
 interface MainPanelProps {
   onSend: () => void;
+  onOpenExploration: () => void;
 }
 
-export default function MainPanel({ onSend }: MainPanelProps) {
+export default function MainPanel({
+  onSend,
+  onOpenExploration,
+}: MainPanelProps) {
   const [questions, setQuestions] = useState<Question[]>(() => pickQuestions(3));
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [leavingId, setLeavingId] = useState<string | null>(null);
@@ -73,7 +77,7 @@ export default function MainPanel({ onSend }: MainPanelProps) {
 
       <ChatInput onAnswer={handleAnswer} selectedQuestion={selectedQuestion} />
 
-      <CareerCard />
+      <CareerCard onClick={onOpenExploration} />
     </section>
   );
 }

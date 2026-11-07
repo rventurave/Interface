@@ -13,7 +13,10 @@ interface ChatInputProps {
   selectedQuestion: Question | null;
 }
 
-export default function ChatInput({ onAnswer, selectedQuestion }: ChatInputProps) {
+export default function ChatInput({
+  onAnswer,
+  selectedQuestion,
+}: ChatInputProps) {
   const [value, setValue] = useState('');
   const [listening, setListening] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);

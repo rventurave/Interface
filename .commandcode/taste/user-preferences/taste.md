@@ -19,3 +19,10 @@
 - Prefers single-select behavior for interactive cards (only one selectable at a time, click again to deselect). Confidence: 0.7
 - Prefers animated fade-out when a UI item is replaced after an action (e.g., an answered question fades and a new one appears). Confidence: 0.6
 - Prefers subtle, understated secondary controls (e.g., a small reload icon placed next to a section title). Confidence: 0.7
+- Prefers honest results: avoids presenting random scores or simulations as if they were real AI output. Confidence: 0.9
+- Prefers demo/placeholder data to be clearly labeled as such until a real backend is connected. Confidence: 0.8
+- Prefers personalized recommendations justified by the user's own interests, knowledge and preferences rather than by popularity. Confidence: 0.8
+- Prefers explicit user control over mutations: no automatic generation or deletion of items; the user triggers and decides. Confidence: 0.8
+- Prefers dark, minimalist visual language with an approximate 30% side panel / 70% interactive graph split. Confidence: 0.8
+- For exploration/recommendation flows, prefers a hierarchical tree rooted at a chosen starting point (e.g., the career), distinct from the force-directed preference graph. Confidence: 0.7
+- Prefers new views/features to be reachable from the main interface via clickable entry points (e.g., a "Carrera y Áreas" card) with an explicit back control, keeping the existing interface intact rather than replacing it. Confidence: 0.8
