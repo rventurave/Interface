@@ -13,6 +13,8 @@ interface GraphPanelProps {
   onNodeDrag: OnNodeDrag;
   onNodeDragStop: OnNodeDrag;
   onSimulate: () => void;
+  onToggleImportant: (id: string) => void;
+  onDeleteNode: (id: string) => void;
 }
 
 export default function GraphPanel({
@@ -23,6 +25,8 @@ export default function GraphPanel({
   onNodeDrag,
   onNodeDragStop,
   onSimulate,
+  onToggleImportant,
+  onDeleteNode,
 }: GraphPanelProps) {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const selectedNode = nodes.find((node) => node.id === selectedNodeId) ?? null;
@@ -31,7 +35,7 @@ export default function GraphPanel({
     <section className="flex min-h-screen flex-col px-6 py-6 lg:min-h-0 lg:px-8 lg:py-10">
       <header className="flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-lg font-bold">Grafo de Preferencias</h2>
+          <h2 className="text-lg font-bold">Este eres tú</h2>
           <p className="mt-1 max-w-xs text-sm text-white/55">
             Se actualiza automáticamente con tus conversaciones sobre investigación.
           </p>
@@ -54,12 +58,20 @@ export default function GraphPanel({
           onNodeDrag={onNodeDrag}
           onNodeDragStop={onNodeDragStop}
           onSelectNode={setSelectedNodeId}
+          onToggleImportant={onToggleImportant}
+          onDeleteNode={(id) => {
+            onDeleteNode(id);
+            if (selectedNodeId === id) setSelectedNodeId(null);
+          }}
         />
       </div>
 
       <div className="mt-6">
         {selectedNode ? (
-          <NodeDetail node={selectedNode} onClose={() => setSelectedNodeId(null)} />
+          <NodeDetail
+            node={selectedNode}
+            onClose={() => setSelectedNodeId(null)}
+          />
         ) : (
           <ProfileEvolution nodes={nodes} />
         )}

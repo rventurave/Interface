@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import ExplorationView from './components/ExplorationView';
 import MainView from './components/MainView';
-import Sidebar from './components/Sidebar';
 import { BrainLogo } from './components/Logo';
+import { AccountIcon } from './components/icons/Icons';
 import { usePreferenceGraph } from './hooks/usePreferenceGraph';
 
 export default function App() {
@@ -16,7 +16,14 @@ export default function App() {
         <span className="text-sm font-medium">InvestiGraph</span>
       </div>
 
-      <Sidebar />
+      <button
+        type="button"
+        aria-label="Cuenta"
+        title="Cuenta"
+        className="fixed bottom-4 left-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 shadow-lg transition-colors hover:text-white"
+      >
+        <AccountIcon className="h-6 w-6" />
+      </button>
 
       {view === 'main' ? (
         <MainView
@@ -24,11 +31,7 @@ export default function App() {
           onOpenExploration={() => setView('exploration')}
         />
       ) : (
-        <ExplorationView
-          onBack={() => setView('main')}
-          onAreaFeedback={preferenceGraph.addFromArea}
-          onChatConcept={preferenceGraph.addConcept}
-        />
+        <ExplorationView onBack={() => setView('main')} />
       )}
     </div>
   );

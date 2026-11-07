@@ -222,6 +222,29 @@ export function usePreferenceGraph() {
     [setNodes],
   );
 
+  const toggleImportant = useCallback(
+    (id: string) => {
+      setNodes((prev) =>
+        prev.map((node) => {
+          if (node.id !== id) return node;
+          const data = node.data as unknown as ProfileNodeData;
+          return {
+            ...node,
+            data: { ...data, important: !data.important },
+          };
+        }),
+      );
+    },
+    [setNodes],
+  );
+
+  const deleteNode = useCallback(
+    (id: string) => {
+      setNodes((prev) => prev.filter((node) => node.id !== id));
+    },
+    [setNodes],
+  );
+
   return {
     nodes,
     edges,
@@ -232,5 +255,7 @@ export function usePreferenceGraph() {
     simulate,
     addFromArea,
     addConcept,
+    toggleImportant,
+    deleteNode,
   };
 }

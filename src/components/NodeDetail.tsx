@@ -30,6 +30,12 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
         </button>
       </div>
 
+      {data.important && (
+        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-1 text-xs font-medium text-amber-300">
+          ★ Importante
+        </span>
+      )}
+
       <div className="mt-3 flex items-center gap-3">
         <div className="h-1.5 flex-1 rounded-full bg-white/5">
           <div

@@ -5,6 +5,7 @@ export interface ProfileNodeData {
   kind: NodeKind;
   score?: number;
   tags?: string[];
+  important?: boolean;
 }
 
 export const NODE_RADIUS = 22;

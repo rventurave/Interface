@@ -1,4 +1,10 @@
-import { useEffect, useRef } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent as ReactMouseEvent,
+} from 'react';
 import {
   Background,
   Controls,
@@ -12,6 +18,7 @@ import {
   type ReactFlowInstance,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import PreferenceNodeMenu from './PreferenceNodeMenu';
 import ProfileNode from './ProfileNode';
 import { KIND_COLORS, type ProfileNodeData } from '../types/graph';
 
@@ -25,6 +32,8 @@ interface PreferenceGraphProps {
   onNodeDrag: OnNodeDrag;
   onNodeDragStop: OnNodeDrag;
   onSelectNode: (id: string | null) => void;
+  onToggleImportant: (id: string) => void;
+  onDeleteNode: (id: string) => void;
 }
 
 export default function PreferenceGraph({
@@ -35,8 +44,13 @@ export default function PreferenceGraph({
   onNodeDrag,
   onNodeDragStop,
   onSelectNode,
+  onToggleImportant,
+  onDeleteNode,
 }: PreferenceGraphProps) {
   const instanceRef = useRef<ReactFlowInstance | null>(null);
+  const [menu, setMenu] = useState<{ x: number; y: number; node: Node } | null>(
+    null,
+  );
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -44,6 +58,20 @@ export default function PreferenceGraph({
     }, 900);
     return () => window.clearTimeout(timer);
   }, []);
+
+  const closeMenu = useCallback(() => setMenu(null), []);
+
+  const handleNodeContextMenu = useCallback(
+    (event: ReactMouseEvent, node: Node) => {
+      event.preventDefault();
+      setMenu({ x: event.clientX, y: event.clientY, node });
+    },
+    [],
+  );
+
+  const menuData = menu
+    ? (menu.node.data as unknown as ProfileNodeData)
+    : null;
 
   return (
     <div className="glow-card h-[420px] w-full overflow-hidden lg:h-[440px]">
@@ -56,7 +84,11 @@ export default function PreferenceGraph({
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
         onNodeClick={(_event, node) => onSelectNode(node.id)}
-        onPaneClick={() => onSelectNode(null)}
+        onNodeContextMenu={handleNodeContextMenu}
+        onPaneClick={() => {
+          onSelectNode(null);
+          closeMenu();
+        }}
         onInit={(instance) => {
           instanceRef.current = instance;
         }}
@@ -74,6 +106,24 @@ export default function PreferenceGraph({
           style={{ width: 120, height: 80, background: '#050505' }}
         />
       </ReactFlow>
+
+      {menu && menuData && (
+        <PreferenceNodeMenu
+          x={menu.x}
+          y={menu.y}
+          label={menuData.label}
+          isImportant={menuData.important ?? false}
+          onClose={closeMenu}
+          onToggleImportant={() => {
+            onToggleImportant(menu.node.id);
+            closeMenu();
+          }}
+          onDelete={() => {
+            onDeleteNode(menu.node.id);
+            closeMenu();
+          }}
+        />
+      )}
     </div>
   );
 }

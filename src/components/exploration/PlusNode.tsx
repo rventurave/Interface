@@ -16,7 +16,7 @@ function PlusNode({ data }: NodeProps) {
         </div>
         <Handle
           type="target"
-          position={Position.Top}
+          position={Position.Left}
           style={{ background: '#8B5CF6' }}
         />
       </div>

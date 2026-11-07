@@ -5,7 +5,7 @@
 - Prefers React Flow (@xyflow/react) for interactive graph visualizations. Confidence: 0.8
 - Prefers prioritizing visual reproduction of a reference first, using mock data while keeping integration points ready for later AI wiring. Confidence: 0.8
 - Communicates in Spanish. Confidence: 0.9
-- Prefers sharing UI/content requirements via screenshots rather than typing them out. Confidence: 0.7
+- Prefers sharing UI/content requirements via screenshots rather than typing them out. Confidence: 0.8
 - Prefers automatic reordering/layout of graph nodes so they do not overlap as the graph grows. Confidence: 0.8
 - Prefers force-directed network graphs where nodes connect to each other by common relationships (e.g., shared tags), with edges derived automatically from node data rather than maintained manually. Confidence: 0.8
 - Prefers circular graph nodes with the label above and the score inside, with directed arrow edges between related nodes. Confidence: 0.7
@@ -31,3 +31,26 @@
 - Prefers the preference graph to update live from interactions in other views (e.g., marking an area "Me interesa" or chatting in the explorer adds related preferences/concepts), backed by a single shared state. Confidence: 0.8
 - Prefers high-contrast, glowing (phosphorescent) accents for graph elements on dark backgrounds — e.g., white glowing edges instead of muted gray. Confidence: 0.8
 - Prefers graph relationships to be visually obvious at a glance: edges between related nodes must be clearly visible (high-contrast and thick enough) rather than only existing in the data, and will flag when connections aren't apparent. Confidence: 0.9
+- Prefers limiting graph connectivity to necessary links only: each node should connect to at most ~1–3 others (never "all against all"), prioritizing the most relevant relationships (e.g., most shared characteristics and highest score) over connecting every compatible pair. Confidence: 0.8
+- Prefers the graph to remain a single connected component — no isolated or independent groups/clusters — even while each node is limited to ~1–3 edges. Confidence: 0.8
+- Prefers selecting a graph node to reveal contextual actions for marking it as important or deleting it. Confidence: 0.8
+- Prefers hierarchical exploration trees to flow horizontally from left to right, with each level as a distinct column. Confidence: 0.8
+- Prefers keeping previously expanded levels visible during hierarchical exploration so navigation context is preserved. Confidence: 0.8
+- Prefers a breadcrumb showing the current hierarchical path during exploration. Confidence: 0.7
+- Prefers being able to collapse (contract) branches to simplify hierarchical views. Confidence: 0.7
+- Prefers AI to recommend two alternatives per exploration level, plus a "+" node that opens a prompt for creating a custom alternative interpreted in the context of the parent node. Confidence: 0.7
+- Prefers visually differentiating hierarchy levels/node types with distinct colors. Confidence: 0.7
+- Prefers smooth animations when new branches/nodes are generated. Confidence: 0.6
+- Prefers zoom and pan controls (horizontal + vertical scrolling) for exploring large graphs/trees. Confidence: 0.7
+- For article/knowledge graphs, prefers connecting items by relationship type (thematic, methodology, authors, references, related) and encoding type/relevance by color. Confidence: 0.7
+- Prefers a detail/exploration view (e.g., an article graph) to open as an independent view that retains the reference to the source topic rather than being inlined in the hierarchy. Confidence: 0.7
+- Prefers the hierarchical explorer to start from a basic recommendation derived from the existing preference graph. Confidence: 0.7
+- Prefers providing detailed written specification documents for larger features and expects them to be implemented faithfully. Confidence: 0.7
+- Prefers a click on a hierarchy node to only select it (to set context for asking questions) and to keep an embedded chat panel in the explorer for asking questions about the selected node rather than removing it. Confidence: 0.8
+- Prefers opening a small contextual menu (collapse/expand, delete, mark important) with a right-click, while a left-click only selects the node. Confidence: 0.9
+- Prefers the right-click contextual-menu pattern for node actions to be applied consistently across all graph views (e.g., hierarchy explorer and preference graph) rather than creating per-view inline controls. Confidence: 0.7
+- Prefers context-menu actions to be toggles that reflect the current state (e.g., "Contraer/Expandir rama", "Marcar/Desmarcar importante"), so the same item both applies and reverses the action. Confidence: 0.8
+- Prefers avoiding duplicate controls for the same action across the UI: when an action already lives in the right-click context menu, it should not also appear as buttons in the detail/explorer panel. Confidence: 0.8
+- Prefers the detail/explorer panel to show only informational content (level, name, affinity, description) and keep mutating actions (collapse, delete, mark important) exclusively in the contextual menu. Confidence: 0.7
+- Prefers stripping interface chrome down to the essentials and eliminating dead/empty space: e.g., removing the sidebar column entirely and letting content use the full width, with the profile/account icon kept as a small floating button in its corner. Confidence: 0.7
+- Prefers warm, personal, second-person UI copy over technical feature names, and favors invitational/action-oriented phrasing over static labels (e.g., "Comenzar a investigar" instead of "Carrera y Áreas", "Cuéntame tu experiencia" as the chat header instead of "Este eres tú"). Confidence: 0.8

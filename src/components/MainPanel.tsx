@@ -79,7 +79,7 @@ export default function MainPanel({
       </header>
 
       <h1 className="mt-8 text-center text-3xl font-extrabold tracking-tight lg:text-4xl">
-        Este eres <span className="text-primary">tú</span>
+        Cuéntame tu <span className="text-primary">experiencia</span>
       </h1>
 
       <div className="min-h-0 flex-1 overflow-y-auto py-6">

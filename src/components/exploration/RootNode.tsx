@@ -5,10 +5,11 @@ interface RootData {
   label?: string;
   description?: string;
   isSelected?: boolean;
+  important?: boolean;
 }
 
 function RootNode({ data }: NodeProps) {
-  const { label, isSelected } = data as unknown as RootData;
+  const { label, isSelected, important } = data as unknown as RootData;
 
   return (
     <div className="relative flex flex-col items-center">
@@ -22,9 +23,14 @@ function RootNode({ data }: NodeProps) {
       >
         {label}
       </div>
+      {important && (
+        <span className="absolute -left-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-black shadow">
+          ★
+        </span>
+      )}
       <Handle
         type="source"
-        position={Position.Bottom}
+        position={Position.Right}
         style={{ background: '#8B5CF6' }}
       />
     </div>

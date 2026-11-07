@@ -15,7 +15,7 @@ const KIND_STYLES: Record<NodeKind, { text: string; bg: string; glow: string }> 
 };
 
 function ProfileNode({ data }: NodeProps) {
-  const { label, kind, score } = data as unknown as ProfileNodeData;
+  const { label, kind, score, important } = data as unknown as ProfileNodeData;
   const color = KIND_COLORS[kind];
   const style = KIND_STYLES[kind];
   const size = NODE_RADIUS * 2;
@@ -32,6 +32,7 @@ function ProfileNode({ data }: NodeProps) {
             borderColor: color,
             background: style.bg,
             boxShadow: `0 0 18px ${style.glow}`,
+            borderWidth: important ? 3 : 2,
             fontSize: 11,
           }}
         >
@@ -41,6 +42,11 @@ function ProfileNode({ data }: NodeProps) {
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
           )}
         </div>
+        {important && (
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-[11px] font-bold text-black shadow">
+            ★
+          </span>
+        )}
         <Handle
           type="target"
           position={Position.Top}

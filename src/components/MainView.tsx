@@ -25,6 +25,8 @@ export default function MainView({ graph, onOpenExploration }: MainViewProps) {
           onNodeDrag={graph.onNodeDrag}
           onNodeDragStop={graph.onNodeDragStop}
           onSimulate={graph.simulate}
+          onToggleImportant={graph.toggleImportant}
+          onDeleteNode={graph.deleteNode}
         />
       </div>
     </div>
