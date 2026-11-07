@@ -3,9 +3,11 @@ import ExplorationView from './components/ExplorationView';
 import MainView from './components/MainView';
 import Sidebar from './components/Sidebar';
 import { BrainLogo } from './components/Logo';
+import { usePreferenceGraph } from './hooks/usePreferenceGraph';
 
 export default function App() {
   const [view, setView] = useState<'main' | 'exploration'>('main');
+  const preferenceGraph = usePreferenceGraph();
 
   return (
     <div className="flex min-h-screen w-full bg-ink text-white lg:h-screen lg:overflow-hidden">
@@ -17,9 +19,16 @@ export default function App() {
       <Sidebar />
 
       {view === 'main' ? (
-        <MainView onOpenExploration={() => setView('exploration')} />
+        <MainView
+          graph={preferenceGraph}
+          onOpenExploration={() => setView('exploration')}
+        />
       ) : (
-        <ExplorationView onBack={() => setView('main')} />
+        <ExplorationView
+          onBack={() => setView('main')}
+          onAreaFeedback={preferenceGraph.addFromArea}
+          onChatConcept={preferenceGraph.addConcept}
+        />
       )}
     </div>
   );

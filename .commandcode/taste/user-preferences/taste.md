@@ -15,7 +15,7 @@
 - Prefers confirming understanding of a request and getting approval before starting implementation. Confidence: 0.8
 - Prefers a minimap (overview) in graph visualizations to help locate and orient within the graph. Confidence: 0.9
 - Prefers direct node–edge–node relationships between individual graph nodes (linked by shared characteristics), not connections routed through broader intermediary domain/area nodes. Confidence: 0.7
-- Prefers organizing profile graph items into three categories: preferences (preferencias), experience (experiencia), and related knowledge (conocimiento relacionado). Confidence: 0.6
+- Prefers organizing profile graph items into four categories: preferences (preferencias), experience (experiencias), knowledge (conocimiento), and information (información). Confidence: 0.8
 - Prefers single-select behavior for interactive cards (only one selectable at a time, click again to deselect). Confidence: 0.7
 - Prefers animated fade-out when a UI item is replaced after an action (e.g., an answered question fades and a new one appears). Confidence: 0.6
 - Prefers subtle, understated secondary controls (e.g., a small reload icon placed next to a section title). Confidence: 0.7
@@ -26,3 +26,8 @@
 - Prefers dark, minimalist visual language with an approximate 30% side panel / 70% interactive graph split. Confidence: 0.8
 - For exploration/recommendation flows, prefers a hierarchical tree rooted at a chosen starting point (e.g., the career), distinct from the force-directed preference graph. Confidence: 0.7
 - Prefers new views/features to be reachable from the main interface via clickable entry points (e.g., a "Carrera y Áreas" card) with an explicit back control, keeping the existing interface intact rather than replacing it. Confidence: 0.8
+- Prefers compact, minimalist interactive controls (e.g., small pill-style question prompts) over large cards that combine an icon, question text, and instructions. Confidence: 0.8
+- Prefers contextual prompts/controls pinned (sticky) right above the input bar so they stay visible as the chat history grows, with the history itself in a scrollable area. Confidence: 0.8
+- Prefers the preference graph to update live from interactions in other views (e.g., marking an area "Me interesa" or chatting in the explorer adds related preferences/concepts), backed by a single shared state. Confidence: 0.8
+- Prefers high-contrast, glowing (phosphorescent) accents for graph elements on dark backgrounds — e.g., white glowing edges instead of muted gray. Confidence: 0.8
+- Prefers graph relationships to be visually obvious at a glance: edges between related nodes must be clearly visible (high-contrast and thick enough) rather than only existing in the data, and will flag when connections aren't apparent. Confidence: 0.9

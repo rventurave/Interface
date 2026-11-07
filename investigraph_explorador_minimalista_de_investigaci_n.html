@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-[#09090b] text-zinc-100 antialiased selection:bg-zinc-800 selection:text-zinc-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestiGraph — Visual Exploration System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#121215',
+                            950: '#09090b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- D3.js CDN for force graph visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        /* Custom UI transitions & SVG styling */
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom scrollbars */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        /* Graph SVG styles */
+        .node-circle {
+            transition: r 0.25s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.2s ease, fill 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .node-circle:hover {
+            filter: brightness(1.2);
+        }
+
+        .node-pulse {
+            animation: ringPulse 2.5s infinite;
+        }
+
+        @keyframes ringPulse {
+            0% { stroke-opacity: 0.9; stroke-width: 2px; }
+            50% { stroke-opacity: 0.3; stroke-width: 4px; }
+            100% { stroke-opacity: 0.9; stroke-width: 2px; }
+        }
+
+        /* Context Menu animation */
+        #context-menu {
+            transform-origin: top left;
+            transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+        }
+    </style>
+</head>
+<body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
+
+    <!-- TOP SYSTEM BAR (MINIMAL) -->
+    <header class="h-11 border-b border-zinc-800/80 px-4 flex items-center justify-between bg-[#0d0d10] shrink-0 select-none">
+        <div class="flex items-center gap-3">
+            <div class="w-2.5 h-2.5 rounded-full bg-zinc-100"></div>
+            <span class="text-xs font-semibold tracking-wider text-zinc-200 uppercase font-mono">InvestiGraph</span>
+            <span class="text-[11px] text-zinc-500 font-mono">/ Explorer v2.4</span>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs text-zinc-400">
+            <div class="flex items-center gap-2 bg-zinc-900/90 border border-zinc-800 px-2.5 py-1 rounded-md font-mono text-[11px]">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span id="graph-stats-summary">12 Nodos &bull; 14 Relaciones</span>
+            </div>
+            <button id="reset-view-btn" class="hover:text-zinc-100 transition-colors flex items-center gap-1.5 py-1 px-2 rounded hover:bg-zinc-800/50">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Centrar Vista</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN INTERFACE LAYOUT -->
+    <div class="flex-1 flex overflow-hidden relative">
+
+        <!-- LEFT SIDEBAR: CONTEXTUAL AI & DYNAMIC INDEX (28% - 30% width) -->
+        <aside class="w-[30%] min-w-[340px] max-w-[460px] border-r border-zinc-800/80 bg-[#0d0d10] flex flex-col h-full z-10 shrink-0">
+            
+            <!-- ACTIVE NODE HEADER -->
+            <div class="p-3.5 border-b border-zinc-800/80 bg-zinc-900/40">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Área Seleccionada</span>
+                    <span id="active-node-recommendation" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50">
+                        Rec: 94%
+                    </span>
+                </div>
+                <h1 id="active-node-title" class="text-sm font-semibold text-zinc-100 truncate flex items-center gap-2">
+                    Transformers & Atenci&oacute;n
+                </h1>
+                <p id="active-node-desc" class="text-xs text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                    Arquitecturas de aprendizaje profundo enfocadas en procesamiento secuencial paralelo y mecanismos de auto-atención.
+                </p>
+            </div>
+
+            <!-- TOP HALF OF SIDEBAR: DYNAMIC INDEX GENERATED BY AI INTERACTION -->
+            <div class="flex-1 min-h-[180px] max-h-[42%] border-b border-zinc-800/80 flex flex-col bg-[#09090b]/50">
+                <div class="px-3.5 py-2 border-b border-zinc-800/60 flex items-center justify-between bg-zinc-900/20">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                        <span class="text-xs font-medium text-zinc-300 tracking-tight">S&iacute;ntesis Estructurada / &Iacute;ndice</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-zinc-500" id="index-item-count">3 Cap&iacute;tulos</span>
+                </div>
+
+                <!-- INDEX LIST / TOC -->
+                <div id="dynamic-index-container" class="flex-1 overflow-y-auto p-3 space-y-2">
+                    <!-- Dynamic Items render here -->
+                </div>
+            </div>
+
+            <!-- BOTTOM HALF OF SIDEBAR: CONTEXTUAL LINEAR CHAT -->
+            <div class="flex-1 flex flex-col min-h-0 bg-[#0d0d10]">
+                <div class="px-3.5 py-2 border-b border-zinc-800/60 flex items-center justify-between bg-zinc-900/30">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        <span class="text-xs font-medium text-zinc-300">Validaci&oacute;n Contextual de Inter&eacute;s</span>
+                    </div>
+                    <span class="text-[10px] font-mono text-emerald-400/90 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> IA Activa
+                    </span>
+                </div>
+
+                <!-- CHAT MESSAGES LOG -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-3.5 space-y-3 font-sans text-xs">
+                    <!-- Chat messages injected here dynamically -->
+                </div>
+
+                <!-- PROMPT SUGGESTION CHIPS -->
+                <div id="prompt-suggestions" class="px-3 py-1.5 border-t border-zinc-800/40 flex items-center gap-1.5 overflow-x-auto whitespace-nowrap scrollbar-none">
+                    <!-- Chips inserted dynamically -->
+                </div>
+
+                <!-- CHAT INPUT AREA -->
+                <div class="p-3 border-t border-zinc-800/80 bg-zinc-900/30">
+                    <form id="chat-form" class="flex items-center gap-2">
+                        <input 
+                            type="text" 
+                            id="chat-input"
+                            placeholder="Pregunta para profundizar o validar inter&eacute;s..." 
+                            class="flex-1 bg-zinc-950 border border-zinc-800 rounded-md px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
+                            autocomplete="off"
+                        >
+                        <button 
+                            type="submit" 
+                            class="p-2 bg-zinc-200 hover:bg-white text-zinc-950 rounded-md transition-colors flex items-center justify-center shrink-0"
+                            title="Enviar pregunta"
+                        >
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN AREA: INTERACTIVE DIRECTED GRAPH CANVAS (70% width) -->
+        <main class="flex-1 relative bg-[#09090b] overflow-hidden flex flex-col">
+
+            <!-- GRAPH OVERLAY LEGEND & SEARCH BAR -->
+            <div class="absolute top-3 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+                
+                <!-- VISUAL DECODING LEGEND -->
+                <div class="pointer-events-auto bg-zinc-900/85 backdrop-blur-md border border-zinc-800/90 rounded-lg p-2.5 shadow-xl text-[11px] text-zinc-400 flex items-center gap-5 font-mono">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full border border-zinc-400 bg-zinc-800"></div>
+                        <span>Tama&ntilde;o = Amplitud/Hijos</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-indigo-900 border border-indigo-500"></div>
+                        <span>Relleno = Recomendaci&oacute;n</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3.5 h-3.5 rounded-full border-2 border-emerald-400 border-dashed"></div>
+                        <span>Borde = Nuevo / No revisado</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-zinc-500">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        <span>Flechas = Citaci&oacute;n</span>
+                    </div>
+                </div>
+
+                <!-- SEARCH & HELPER TOOLBAR -->
+                <div class="pointer-events-auto flex items-center gap-2">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="node-search" 
+                            placeholder="Buscar &aacute;rea en grafo..." 
+                            class="bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-lg px-3 py-1.5 pl-8 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 w-52"
+                        >
+                        <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVG CANVAS CONTAINER -->
+            <div id="graph-container" class="w-full h-full cursor-grab active:cursor-grabbing select-none">
+                <!-- D3 Dynamic SVG injects here -->
+            </div>
+
+            <!-- FLOATING NAVIGATION CONTROLS (BOTTOM RIGHT) -->
+            <div class="absolute bottom-4 right-4 z-10 flex flex-col gap-1 bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-lg p-1 shadow-lg text-zinc-300">
+                <button id="zoom-in-btn" class="p-2 hover:bg-zinc-800 rounded transition-colors" title="Aumentar Zoom">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                </button>
+                <div class="h-[1px] bg-zinc-800 my-0.5"></div>
+                <button id="zoom-out-btn" class="p-2 hover:bg-zinc-800 rounded transition-colors" title="Reducir Zoom">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+                </button>
+                <div class="h-[1px] bg-zinc-800 my-0.5"></div>
+                <button id="fit-graph-btn" class="p-2 hover:bg-zinc-800 rounded transition-colors" title="Ajustar Pantalla">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
+                </button>
+            </div>
+
+            <!-- FLOATING HELP TIP (BOTTOM LEFT) -->
+            <div class="absolute bottom-4 left-4 z-10 text-[11px] font-mono text-zinc-500 bg-zinc-900/70 border border-zinc-800/60 backdrop-blur px-3 py-1.5 rounded-md pointer-events-none">
+                Clic Izq: Seleccionar/Revisar nodo &bull; Clic Der: Men&uacute; de opciones
+            </div>
+        </main>
+    </div>
+
+    <!-- CONTEXT MENU (RIGHT CLICK ON NODE) -->
+    <div 
+        idcontext-menu 
+        id="context-menu" 
+        class="fixed hidden z-50 bg-zinc-900 border border-zinc-700/80 rounded-md shadow-2xl py-1 w-56 text-xs text-zinc-200 divide-y divide-zinc-800/80 backdrop-blur-md opacity-0 scale-95 transition-all"
+    >
+        <div class="px-3 py-1.5 font-mono text-[10px] text-zinc-400 truncate bg-zinc-950/40" id="context-menu-title">
+            Nodo
+        </div>
+        <div class="py-1">
+            <button id="ctx-expand-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-200">
+                <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+                <span>Pedir sugerencias de sub-&aacute;reas</span>
+            </button>
+            <button id="ctx-toggle-review-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-300">
+                <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span id="ctx-toggle-review-text">Alternar estado de revisi&oacute;n</span>
+            </button>
+        </div>
+        <div class="py-1">
+            <button id="ctx-delete-btn" class="w-full text-left px-3 py-1.5 hover:bg-red-950/40 hover:text-red-300 flex items-center gap-2 text-red-400">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span>Eliminar &aacute;rea del grafo</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- APPLICATION LOGIC JS -->
+    <script>
+        // --- INITIAL DATASET: DIRECTED RESEARCH GRAPH ---
+        let graphData = {
+            nodes: [
+                { id: "ai", name: "Inteligencia Artificial", radius: 24, score: 98, reviewed: true, desc: "Campo amplio del cómputo enfocado en la simulación de procesos cognitivos." },
+                { id: "transformers", name: "Transformers & Atención", radius: 20, score: 95, reviewed: true, desc: "Arquitecturas paralelas basadas en mecanismos de atención secuencial." },
+                { id: "llm", name: "Modelos de Lenguaje (LLMs)", radius: 18, score: 92, reviewed: false, desc: "Modelos autoregresivos de gran escala entrenados en corpus de texto masivos." },
+                { id: "gnn", name: "Graph Neural Networks (GNN)", radius: 16, score: 88, reviewed: false, desc: "Redes neuronales que operan directamente sobre estructuras de grafos no euclidianos." },
+                { id: "alignment", name: "Alineación y Seguridad IA", radius: 14, score: 85, reviewed: false, desc: "Investigación sobre la alineación de valores e intenciones entre IA y humanos." },
+                { id: "rlhf", name: "RLHF / DPO", radius: 12, score: 90, reviewed: false, desc: "Optimización mediante retroalimentación humana y preferencias directas." },
+                { id: "rag", name: "Generación Aumentada (RAG)", radius: 13, score: 94, reviewed: false, desc: "Recuperación de conocimiento externo para reducir alucinaciones en LLMs." },
+                { id: "cv", name: "Visión por Computadora", radius: 17, score: 72, reviewed: true, desc: "Procesamiento y comprensión de información visual y espacial." },
+                { id: "diffusion", name: "Modelos de Difusión", radius: 15, score: 79, reviewed: false, desc: "Generación mediante procesos inversos de eliminación de ruido estocástico." },
+                { id: "agents", name: "Agentes Autónomos", radius: 16, score: 96, reviewed: false, desc: "Sistemas capaces de planificar, ejecutar herramientas y razonar en bucle." },
+                { id: "multimodal", name: "Sistemas Multimodales", radius: 14, score: 89, reviewed: false, desc: "Integración coordinada de texto, audio, imagen y código." },
+                { id: "eval", name: "Evaluación y Benchmarking", radius: 11, score: 65, reviewed: true, desc: "Métricas y metodologías para medir capacidades objetivas de razonamiento." }
+            ],
+            links: [
+                { source: "ai", target: "transformers" },
+                { source: "ai", target: "cv" },
+                { source: "transformers", target: "llm" },
+                { source: "transformers", target: "gnn" },
+                { source: "llm", target: "alignment" },
+                { source: "llm", target: "rag" },
+                { source: "alignment", target: "rlhf" },
+                { source: "cv", target: "diffusion" },
+                { source: "llm", target: "agents" },
+                { source: "transformers", target: "multimodal" },
+                { source: "cv", target: "multimodal" },
+                { source: "llm", target: "eval" },
+                { source: "agents", target: "eval" },
+                { source: "rag", target: "agents" }
+            ]
+        };
+
+        // --- STATE MANAGEMENT ---
+        let activeNodeId = "transformers";
+        let contextTargetNode = null;
+        let nodeIndicesMap = {}; // Dynamic index per node
+        let chatHistoriesMap = {}; // Chat history per node
+
+        // Initialize structured index outlines for domains
+        function initSampleDomainData() {
+            graphData.nodes.forEach(node => {
+                nodeIndicesMap[node.id] = [
+                    { id: 1, title: `1. Fundamentos Teóricos de ${node.name}`, readTime: "3 min", content: "Descripción conceptual básica de los pilares que componen esta disciplina." },
+                    { id: 2, title: `2. Aplicaciones Prácticas y Estado del Arte`, readTime: "5 min", content: "Casos de uso clave y avances más significativos publicados recientemente." },
+                    { id: 3, title: `3. Desafíos Abiertos y Líneas de Investigación`, readTime: "4 min", content: "Problemas metodológicos sin resolver y posibles direcciones futuras." }
+                ];
+
+                chatHistoriesMap[node.id] = [
+                    { sender: 'ai', text: `Bienvenido a la exploración de **${node.name}**. ¿Qué aspecto específico deseas revisar para validar tu interés en esta área?` }
+                ];
+            });
+        }
+        initSampleDomainData();
+
+        // --- GRAPH VISUALIZATION ENGINE (D3.js) ---
+        const container = document.getElementById("graph-container");
+        let width = container.clientWidth;
+        let height = container.clientHeight;
+
+        const svg = d3.select("#graph-container")
+            .append("svg")
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .attr("viewBox", [0, 0, width, height]);
+
+        // Definition of arrow markers for directed links
+        const defs = svg.append("defs");
+        defs.append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 22)
+            .attr("refY", 0)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+            .append("path")
+            .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", "#52525b");
+
+        // Zoom & Pan Group
+        const g = svg.append("g");
+
+        const zoomBehavior = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+
+        svg.call(zoomBehavior).on("dblclick.zoom", null);
+
+        // Simulation setup
+        const simulation = d3.forceSimulation(graphData.nodes)
+            .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(120))
+            .force("charge", d3.forceManyBody().strength(-380))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.radius + 28));
+
+        // Layers
+        const linkGroup = g.append("g").attr("class", "links");
+        const nodeGroup = g.append("g").attr("class", "nodes");
+
+        let linkElements, nodeElements;
+
+        function updateGraph() {
+            // Update stats
+            document.getElementById("graph-stats-summary").innerText = 
+                `${graphData.nodes.length} Nodos • ${graphData.links.length} Relaciones`;
+
+            // LINKS
+            linkElements = linkGroup.selectAll("line")
+                .data(graphData.links, d => `${d.source.id || d.source}-${d.target.id || d.target}`);
+
+            linkElements.exit().remove();
+
+            const linkEnter = linkElements.enter()
+                .append("line")
+                .attr("stroke", "#3f3f46")
+                .attr("stroke-opacity", 0.6)
+                .attr("stroke-width", 1.2)
+                .attr("marker-end", "url(#arrowhead)");
+
+            linkElements = linkEnter.merge(linkElements);
+
+            // NODES
+            nodeElements = nodeGroup.selectAll("g.node-group")
+                .data(graphData.nodes, d => d.id);
+
+            nodeElements.exit().remove();
+
+            const nodeEnter = nodeElements.enter()
+                .append("g")
+                .attr("class", "node-group")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+
+            // Inner Circle Fill color based on recommendation score (monochrome indigo/slate scale)
+            function getNodeFill(score) {
+                if (score >= 90) return "#312e81"; // Indigo-900 high match
+                if (score >= 80) return "#1e1b4b"; // Dark indigo
+                if (score >= 70) return "#18181b"; // Neutral dark
+                return "#09090b";
+            }
+
+            // Circle Rendering
+            nodeEnter.append("circle")
+                .attr("class", "node-circle")
+                .attr("r", d => d.radius)
+                .on("click", (event, d) => handleNodeClick(d))
+                .on("contextmenu", (event, d) => handleNodeContextMenu(event, d));
+
+            // Node Name Label Above Circle
+            nodeEnter.append("text")
+                .attr("class", "node-label")
+                .attr("dy", d => -d.radius - 8)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#e4e4e7")
+                .attr("font-size", "11px")
+                .attr("font-weight", "500")
+                .attr("pointer-events", "none")
+                .text(d => d.name);
+
+            // Score Badge inside/beside circle
+            nodeEnter.append("text")
+                .attr("class", "node-score-text")
+                .attr("dy", "0.35em")
+                .attr("text-anchor", "middle")
+                .attr("fill", "#a1a1aa")
+                .attr("font-size", "9px")
+                .attr("font-mono", "true")
+                .attr("pointer-events", "none")
+                .text(d => `${d.score}%`);
+
+            nodeElements = nodeEnter.merge(nodeElements);
+
+            // Update attributes for all nodes (including state changes)
+            nodeElements.select("circle")
+                .attr("r", d => d.radius)
+                .attr("fill", d => getNodeFill(d.score))
+                .attr("stroke", d => {
+                    if (d.id === activeNodeId) return "#f4f4f5"; // Selected Active Node Focus
+                    if (!d.reviewed) return "#34d399"; // Highlight Unread/New Node
+                    return "#52525b"; // Standard Reviewed Node
+                })
+                .attr("stroke-width", d => (d.id === activeNodeId ? 3 : (!d.reviewed ? 2 : 1)))
+                .attr("stroke-dasharray", d => (!d.reviewed && d.id !== activeNodeId ? "3,3" : "none"))
+                .classed("node-pulse", d => !d.reviewed && d.id !== activeNodeId);
+
+            nodeElements.select("text.node-label")
+                .attr("fill", d => (d.id === activeNodeId ? "#ffffff" : "#a1a1aa"))
+                .attr("font-weight", d => (d.id === activeNodeId ? "600" : "400"));
+
+            simulation.nodes(graphData.nodes);
+            simulation.force("link").links(graphData.links);
+            simulation.alpha(0.3).restart();
+        }
+
+        simulation.on("tick", () => {
+            linkElements
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            nodeElements
+                .attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+
+        // Drag behaviors
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        // --- INTERACTION HANDLERS ---
+
+        function handleNodeClick(node) {
+            activeNodeId = node.id;
+            node.reviewed = true; // Mark as reviewed on selection
+            updateGraph();
+            renderSidebar();
+            hideContextMenu();
+        }
+
+        function handleNodeContextMenu(event, node) {
+            event.preventDefault();
+            contextTargetNode = node;
+            
+            const menu = document.getElementById("context-menu");
+            document.getElementById("context-menu-title").innerText = `Nodo: ${node.name}`;
+            document.getElementById("ctx-toggle-review-text").innerText = node.reviewed 
+                ? "Marcar como No Revisado" 
+                : "Marcar como Revisado";
+
+            menu.style.left = `${event.clientX}px`;
+            menu.style.top = `${event.clientY}px`;
+            menu.classList.remove("hidden");
+            
+            setTimeout(() => {
+                menu.classList.remove("opacity-0", "scale-95");
+            }, 10);
+        }
+
+        function hideContextMenu() {
+            const menu = document.getElementById("context-menu");
+            menu.classList.add("opacity-0", "scale-95");
+            setTimeout(() => {
+                menu.classList.add("hidden");
+            }, 120);
+        }
+
+        document.addEventListener("click", (e) => {
+            if (!e.target.closest("#context-menu")) hideContextMenu();
+        });
+
+        // --- SIDEBAR RENDERING LOGIC ---
+
+        function renderSidebar() {
+            const activeNode = graphData.nodes.find(n => n.id === activeNodeId) || graphData.nodes[0];
+            
+            // Header
+            document.getElementById("active-node-title").innerText = activeNode.name;
+            document.getElementById("active-node-desc").innerText = activeNode.desc;
+            document.getElementById("active-node-recommendation").innerText = `Rec: ${activeNode.score}%`;
+
+            // Render Dynamic Index
+            renderIndex(activeNode.id);
+
+            // Render Chat Messages
+            renderChat(activeNode.id);
+
+            // Render Prompt Chips
+            renderChips(activeNode.name);
+        }
+
+        function renderIndex(nodeId) {
+            const container = document.getElementById("dynamic-index-container");
+            const items = nodeIndicesMap[nodeId] || [];
+            document.getElementById("index-item-count").innerText = `${items.length} Secciones`;
+
+            container.innerHTML = items.map((item, idx) => `
+                <div class="p-2.5 rounded-md bg-zinc-900/60 border border-zinc-800/80 hover:border-zinc-700 transition-colors group cursor-pointer">
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-medium text-zinc-200 group-hover:text-white">${item.title}</span>
+                        <span class="text-[10px] font-mono text-zinc-500">${item.readTime}</span>
+                    </div>
+                    <p class="text-[11px] text-zinc-400 line-clamp-2 leading-normal">${item.content}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderChat(nodeId) {
+            const chatContainer = document.getElementById("chat-messages");
+            const history = chatHistoriesMap[nodeId] || [];
+
+            chatContainer.innerHTML = history.map(msg => {
+                const isUser = msg.sender === 'user';
+                return `
+                    <div class="flex flex-col ${isUser ? 'items-end' : 'items-start'}">
+                        <div class="max-w-[88%] p-2.5 rounded-lg ${
+                            isUser 
+                                ? 'bg-zinc-200 text-zinc-950 font-medium' 
+                                : 'bg-zinc-900 border border-zinc-800/90 text-zinc-300'
+                        } leading-relaxed">
+                            ${msg.text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-zinc-100">$1</strong>')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function renderChips(nodeName) {
+            const chipsContainer = document.getElementById("prompt-suggestions");
+            const prompts = [
+                `¿Por qué es relevante ${nodeName}?`,
+                `¿Principales papers?`,
+                `¿Limitaciones clave?`
+            ];
+
+            chipsContainer.innerHTML = prompts.map(p => `
+                <button 
+                    onclick="sendPrompt('${p}')"
+                    class="px-2.5 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] text-zinc-400 hover:text-zinc-200 hover:border-zinc-700 transition-colors shrink-0"
+                >
+                    ${p}
+                </button>
+            `).join('');
+        }
+
+        // --- CHAT INTERACTION LOGIC ---
+
+        function sendPrompt(text) {
+            const input = document.getElementById("chat-input");
+            input.value = text;
+            handleSendMessage();
+        }
+
+        function handleSendMessage() {
+            const input = document.getElementById("chat-input");
+            const message = input.value.trim();
+            if (!message) return;
+
+            const nodeId = activeNodeId;
+            if (!chatHistoriesMap[nodeId]) chatHistoriesMap[nodeId] = [];
+
+            // Add User Message
+            chatHistoriesMap[nodeId].push({ sender: 'user', text: message });
+            input.value = '';
+            renderChat(nodeId);
+
+            // Simulate AI Dynamic Response & Dynamic Index Refinement
+            setTimeout(() => {
+                const activeNode = graphData.nodes.find(n => n.id === nodeId);
+                
+                // AI Response
+                const aiResponse = `Analizando **${activeNode.name}**: Con relación a tu consulta "*${message}*", los hallazgos recientes destacan por optimizar la eficiencia computacional y reducir latencias en un 40%.`;
+                chatHistoriesMap[nodeId].push({ sender: 'ai', text: aiResponse });
+
+                // Append new section to dynamic index based on conversation
+                if (!nodeIndicesMap[nodeId]) nodeIndicesMap[nodeId] = [];
+                const newChapterNum = nodeIndicesMap[nodeId].length + 1;
+                nodeIndicesMap[nodeId].push({
+                    id: Date.now(),
+                    title: `${newChapterNum}. Profundización: ${message.slice(0, 24)}...`,
+                    readTime: "2 min",
+                    content: `Sintesis generada automáticamente basada en la consulta sobre ${message}.`
+                });
+
+                renderSidebar();
+            }, 600);
+        }
+
+        document.getElementById("chat-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            handleSendMessage();
+        });
+
+        // --- CONTEXT MENU ACTIONS ---
+
+        // Expand sub-areas (Request recommendations)
+        document.getElementById("ctx-expand-btn").addEventListener("click", () => {
+            if (!contextTargetNode) return;
+            hideContextMenu();
+
+            const parent = contextTargetNode;
+            const newId = `sub_${Date.now().toString().slice(-4)}`;
+            const subNames = [
+                "Atención Dispersa", "Kernel Optimization", "Quantization 4-bit", 
+                "Retrieval Fusion", "Sparse MoE", "Memory Alignment"
+            ];
+            const randomName = subNames[Math.floor(Math.random() * subNames.length)];
+
+            // Create new child node
+            const newNode = {
+                id: newId,
+                name: randomName,
+                radius: Math.max(10, parent.radius - 4),
+                score: Math.floor(Math.random() * 20) + 78,
+                reviewed: false, // Highlighted non-reviewed ring
+                desc: `Sub-área de investigación sugerida a partir de ${parent.name}.`
+            };
+
+            graphData.nodes.push(newNode);
+            graphData.links.push({ source: parent.id, target: newId });
+
+            // Initialize index and chat for new node
+            nodeIndicesMap[newId] = [
+                { id: 1, title: `1. Visión general de ${randomName}`, readTime: "2 min", content: "Sugerencia generada por el motor de IA." }
+            ];
+            chatHistoriesMap[newId] = [
+                { sender: 'ai', text: `Sub-área **${randomName}** derivada de **${parent.name}**. ¿Deseas explorar sus papers base?` }
+            ];
+
+            updateGraph();
+        });
+
+        // Toggle Reviewed status manually
+        document.getElementById("ctx-toggle-review-btn").addEventListener("click", () => {
+            if (!contextTargetNode) return;
+            contextTargetNode.reviewed = !contextTargetNode.reviewed;
+            updateGraph();
+            hideContextMenu();
+        });
+
+        // Delete area from graph
+        document.getElementById("ctx-delete-btn").addEventListener("click", () => {
+            if (!contextTargetNode) return;
+            hideContextMenu();
+
+            const targetId = contextTargetNode.id;
+            
+            // Remove node & associated links
+            graphData.nodes = graphData.nodes.filter(n => n.id !== targetId);
+            graphData.links = graphData.links.filter(l => 
+                (l.source.id || l.source) !== targetId && (l.target.id || l.target) !== targetId
+            );
+
+            // If active node deleted, fallback to remaining
+            if (activeNodeId === targetId) {
+                activeNodeId = graphData.nodes.length > 0 ? graphData.nodes[0].id : null;
+            }
+
+            updateGraph();
+            if (activeNodeId) renderSidebar();
+        });
+
+        // --- ZOOM & CONTROLS HANDLERS ---
+        document.getElementById("zoom-in-btn").addEventListener("click", () => {
+            svg.transition().duration(300).call(zoomBehavior.scaleBy, 1.3);
+        });
+
+        document.getElementById("zoom-out-btn").addEventListener("click", () => {
+            svg.transition().duration(300).call(zoomBehavior.scaleBy, 0.7);
+        });
+
+        document.getElementById("fit-graph-btn").addEventListener("click", resetZoom);
+        document.getElementById("reset-view-btn").addEventListener("click", resetZoom);
+
+        function resetZoom() {
+            svg.transition().duration(400).call(
+                zoomBehavior.transform,
+                d3.zoomIdentity.translate(0, 0).scale(1)
+            );
+        }
+
+        // --- SEARCH BAR IN GRAF CANVA ---
+        document.getElementById("node-search").addEventListener("input", (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (!query) {
+                nodeElements.select("circle").style("opacity", 1);
+                return;
+            }
+
+            nodeElements.select("circle").style("opacity", d => 
+                d.name.toLowerCase().includes(query) ? 1 : 0.2
+            );
+        });
+
+        // Resize window listener
+        window.addEventListener("resize", () => {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            svg.attr("viewBox", [0, 0, width, height]);
+            simulation.force("center", d3.forceCenter(width / 2, height / 2));
+            simulation.alpha(0.2).restart();
+        });
+
+        // Initial Initialization
+        updateGraph();
+        renderSidebar();
+    </script>
+</body>
+</html>

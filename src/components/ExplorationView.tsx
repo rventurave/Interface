@@ -1,16 +1,29 @@
 import ExplorationGraph from './exploration/ExplorationGraph';
 import ExplorerPanel from './ExplorerPanel';
 import { useExplorationGraph } from '../hooks/useExplorationGraph';
+import type { Area, Feedback } from '../types/exploration';
 
 interface ExplorationViewProps {
   onBack: () => void;
+  onAreaFeedback: (area: Area, feedback: Feedback) => void;
+  onChatConcept: (label: string, tag?: string) => void;
 }
 
-export default function ExplorationView({ onBack }: ExplorationViewProps) {
+export default function ExplorationView({
+  onBack,
+  onAreaFeedback,
+  onChatConcept,
+}: ExplorationViewProps) {
   const graph = useExplorationGraph();
 
-  const handleChatSend = (_text: string) => {
-    // Demo: aquí se conectaría la IA para actualizar el grafo de preferencias.
+  const handleFeedback = (id: string, feedback: Feedback) => {
+    graph.setFeedback(id, feedback);
+    const area = graph.areas.find((item) => item.id === id);
+    if (area) onAreaFeedback(area, feedback);
+  };
+
+  const handleChatSend = (text: string) => {
+    onChatConcept(text, graph.selectedArea?.name);
   };
 
   return (
@@ -20,7 +33,7 @@ export default function ExplorationView({ onBack }: ExplorationViewProps) {
           selectedArea={graph.selectedArea}
           selectedId={graph.selectedId}
           onSelect={graph.selectNode}
-          onFeedback={graph.setFeedback}
+          onFeedback={handleFeedback}
           onSend={handleChatSend}
           onBack={onBack}
         />
@@ -33,7 +46,7 @@ export default function ExplorationView({ onBack }: ExplorationViewProps) {
           areas={graph.areas}
           selectedId={graph.selectedId}
           onSelect={graph.selectNode}
-          onFeedback={graph.setFeedback}
+          onFeedback={handleFeedback}
           onDelete={graph.deleteArea}
           onAddArea={graph.addArea}
         />

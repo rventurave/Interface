@@ -38,3 +38,33 @@
     @apply rounded-2xl border border-primary/25 bg-white/[0.02] shadow-[0_0_24px_rgba(139,92,246,0.12)];
   }
 }
+
+.react-flow__controls {
+  box-shadow: none;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #14101f;
+}
+
+.react-flow__controls-button {
+  width: 28px;
+  height: 28px;
+  background: #14101f;
+  color: #8b5cf6;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.react-flow__controls-button:hover {
+  background: #1f1a33;
+}
+
+.react-flow__controls-button svg {
+  fill: #8b5cf6;
+}
+
+.react-flow__minimap {
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}

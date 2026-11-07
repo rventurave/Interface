@@ -29,14 +29,18 @@ function makeEdge(source: string, target: string): Edge {
     id: `rel-${source}-${target}`,
     source,
     target,
-    type: 'floating',
+    type: 'straight',
     markerEnd: {
       type: MarkerType.ArrowClosed,
-      color: '#9ca3af',
+      color: '#ffffff',
       width: 14,
       height: 14,
     },
-    style: { stroke: '#9ca3af', strokeWidth: 1.6, opacity: 0.85 },
+    style: {
+      stroke: '#ffffff',
+      strokeWidth: 2.2,
+      opacity: 1,
+    },
   };
 }
 

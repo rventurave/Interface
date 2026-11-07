@@ -2,9 +2,10 @@ import { KIND_COLORS } from '../types/graph';
 
 const ITEMS = [
   { label: 'Preferencias', color: KIND_COLORS.preference },
-  { label: 'Experiencia', color: KIND_COLORS.experience },
-  { label: 'Conocimiento relacionado', color: KIND_COLORS.knowledge },
-  { label: 'Relación común', color: '#9ca3af' },
+  { label: 'Experiencias', color: KIND_COLORS.experience },
+  { label: 'Conocimiento', color: KIND_COLORS.knowledge },
+  { label: 'Información', color: KIND_COLORS.information },
+  { label: 'Relación común', color: '#ffffff' },
 ];
 
 export default function Legend() {

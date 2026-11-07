@@ -5,37 +5,45 @@ import {
   MiniMap,
   ReactFlow,
   type Edge,
-  type EdgeTypes,
   type Node,
   type NodeTypes,
+  type OnNodeDrag,
   type OnNodesChange,
   type ReactFlowInstance,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import FloatingEdge from './FloatingEdge';
-import GroupNode from './GroupNode';
 import ProfileNode from './ProfileNode';
 import { KIND_COLORS, type ProfileNodeData } from '../types/graph';
 
-const nodeTypes = { profile: ProfileNode, group: GroupNode } satisfies NodeTypes;
-const edgeTypes = { floating: FloatingEdge } satisfies EdgeTypes;
+const nodeTypes = { profile: ProfileNode } satisfies NodeTypes;
 
 interface PreferenceGraphProps {
   nodes: Node[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
+  onNodeDragStart: OnNodeDrag;
+  onNodeDrag: OnNodeDrag;
+  onNodeDragStop: OnNodeDrag;
+  onSelectNode: (id: string | null) => void;
 }
 
 export default function PreferenceGraph({
   nodes,
   edges,
   onNodesChange,
+  onNodeDragStart,
+  onNodeDrag,
+  onNodeDragStop,
+  onSelectNode,
 }: PreferenceGraphProps) {
   const instanceRef = useRef<ReactFlowInstance | null>(null);
 
   useEffect(() => {
-    instanceRef.current?.fitView({ padding: 0.2 });
-  }, [nodes.length]);
+    const timer = window.setTimeout(() => {
+      instanceRef.current?.fitView({ padding: 0.2 });
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <div className="glow-card h-[420px] w-full overflow-hidden lg:h-[440px]">
@@ -44,7 +52,11 @@ export default function PreferenceGraph({
         edges={edges}
         onNodesChange={onNodesChange}
         nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
+        onNodeDragStart={onNodeDragStart}
+        onNodeDrag={onNodeDrag}
+        onNodeDragStop={onNodeDragStop}
+        onNodeClick={(_event, node) => onSelectNode(node.id)}
+        onPaneClick={() => onSelectNode(null)}
         onInit={(instance) => {
           instanceRef.current = instance;
         }}
@@ -55,12 +67,11 @@ export default function PreferenceGraph({
         <Background color="#3b2a63" gap={24} size={1} />
         <Controls showInteractive={false} />
         <MiniMap
-          nodeColor={(node) => {
-            if (node.type === 'group') return '#241245';
-            return KIND_COLORS[(node.data as unknown as ProfileNodeData).kind];
-          }}
+          nodeColor={(node) => KIND_COLORS[(node.data as unknown as ProfileNodeData).kind]}
           maskColor="rgba(5,5,5,0.85)"
-          style={{ background: '#050505' }}
+          pannable
+          zoomable
+          style={{ width: 120, height: 80, background: '#050505' }}
         />
       </ReactFlow>
     </div>

@@ -1,5 +1,7 @@
-import type { Edge, Node, OnNodesChange } from '@xyflow/react';
+import { useState } from 'react';
+import type { Edge, Node, OnNodeDrag, OnNodesChange } from '@xyflow/react';
 import Legend from './Legend';
+import NodeDetail from './NodeDetail';
 import PreferenceGraph from './PreferenceGraph';
 import ProfileEvolution from './ProfileEvolution';
 
@@ -7,6 +9,9 @@ interface GraphPanelProps {
   nodes: Node[];
   edges: Edge[];
   onNodesChange: OnNodesChange;
+  onNodeDragStart: OnNodeDrag;
+  onNodeDrag: OnNodeDrag;
+  onNodeDragStop: OnNodeDrag;
   onSimulate: () => void;
 }
 
@@ -14,8 +19,14 @@ export default function GraphPanel({
   nodes,
   edges,
   onNodesChange,
+  onNodeDragStart,
+  onNodeDrag,
+  onNodeDragStop,
   onSimulate,
 }: GraphPanelProps) {
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const selectedNode = nodes.find((node) => node.id === selectedNodeId) ?? null;
+
   return (
     <section className="flex min-h-screen flex-col px-6 py-6 lg:min-h-0 lg:px-8 lg:py-10">
       <header className="flex items-start justify-between gap-4">
@@ -39,11 +50,19 @@ export default function GraphPanel({
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
+          onNodeDragStart={onNodeDragStart}
+          onNodeDrag={onNodeDrag}
+          onNodeDragStop={onNodeDragStop}
+          onSelectNode={setSelectedNodeId}
         />
       </div>
 
       <div className="mt-6">
-        <ProfileEvolution nodes={nodes} />
+        {selectedNode ? (
+          <NodeDetail node={selectedNode} onClose={() => setSelectedNodeId(null)} />
+        ) : (
+          <ProfileEvolution nodes={nodes} />
+        )}
       </div>
 
       <div className="mt-6">

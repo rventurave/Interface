@@ -3,8 +3,9 @@ import { KIND_COLORS, type NodeKind, type ProfileNodeData } from '../types/graph
 
 const ROWS: { kind: NodeKind; label: string }[] = [
   { kind: 'preference', label: 'Preferencias' },
-  { kind: 'experience', label: 'Experiencia' },
+  { kind: 'experience', label: 'Experiencias' },
   { kind: 'knowledge', label: 'Conocimiento' },
+  { kind: 'information', label: 'Información' },
 ];
 
 interface ProfileEvolutionProps {
@@ -16,21 +17,27 @@ export default function ProfileEvolution({ nodes }: ProfileEvolutionProps) {
     preference: 0,
     experience: 0,
     knowledge: 0,
+    information: 0,
   };
 
   nodes.forEach((node) => {
-    if (node.type === 'group') return;
     const kind = (node.data as unknown as ProfileNodeData).kind;
     counts[kind] += 1;
   });
 
-  const max = Math.max(counts.preference, counts.experience, counts.knowledge, 1);
+  const max = Math.max(
+    counts.preference,
+    counts.experience,
+    counts.knowledge,
+    counts.information,
+    1,
+  );
 
   return (
     <div className="glow-card p-5">
       <p className="font-semibold">Evolución del perfil</p>
       <p className="mt-1 text-xs text-white/50">
-        Tus intereses crecen con cada conversación.
+        Tu perfil crece con cada conversación y decisión.
       </p>
 
       <div className="mt-4 flex flex-col gap-3">
