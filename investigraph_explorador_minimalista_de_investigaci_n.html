@@ -61,6 +61,116 @@
             transform-origin: top left;
             transition: opacity 0.12s ease-out, transform 0.12s ease-out;
         }
+
+        /* Reading hierarchy and contrast, including dynamically rendered content. */
+        body { line-height: 1.6; }
+        body .text-xs, body .text-\[9px\], body .text-\[10px\], body .text-\[11px\] {
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        body .text-zinc-500 { color: #b4b4bd; }
+        body .placeholder-zinc-500::placeholder { color: #b4b4bd; }
+        body .uppercase { text-transform: none; letter-spacing: normal; }
+        body .font-mono { font-family: inherit; }
+        p { overflow-wrap: anywhere; }
+        body .line-clamp-2 { display: block; -webkit-line-clamp: unset; }
+        #active-node-title { white-space: normal; font-size: 1.125rem; }
+        #chat-input { min-width: 0; font-size: 1rem; }
+        .node-label { font-size: 13px; }
+        .node-score-text { font-size: 12px; fill: #e4e4e7; }
+        main > .absolute.top-3 { flex-wrap: wrap; gap: 0.75rem; }
+        main > .absolute.top-3 > div:first-child { flex-wrap: wrap; gap: 0.75rem; }
+        main > .absolute.bottom-4.left-4 { max-width: calc(100% - 5rem); }
+        button:focus-visible, input:focus-visible {
+            outline: 2px solid #a5b4fc;
+            outline-offset: 3px;
+        }
+        @media (max-width: 767px) {
+            body { overflow: auto; height: auto; min-height: 100%; }
+            body > header { height: auto; min-height: 3rem; flex-wrap: wrap; gap: 0.5rem; padding-block: 0.5rem; }
+            body > .flex-1 { flex-direction: column; overflow: visible; }
+            aside { width: 100% !important; min-width: 0 !important; max-width: none !important; height: auto !important; }
+            #dynamic-index-container { max-height: 18rem; }
+            #chat-messages { min-height: 12rem; max-height: 20rem; }
+            main { flex: none !important; height: 75vh; min-height: 32rem; }
+        }
+
+        /* Keep the existing contextual menu readable at the viewport edges. */
+        #context-menu {
+            max-width: calc(100vw - 1.5rem);
+            max-height: min(20rem, calc(100dvh - 1.5rem));
+            overflow-y: auto;
+        }
+        #context-menu-title { white-space: normal; overflow-wrap: anywhere; }
+        #chat-messages { font-size: 1rem; }
+        #prompt-suggestions { flex-wrap: wrap; white-space: normal; overflow-x: visible; }
+        #prompt-suggestions button { max-width: 100%; white-space: normal; text-align: left; }
+
+        #dynamic-index-container .group > .flex { align-items: flex-start; gap: 0.5rem; }
+        #dynamic-index-container .group > .flex > span:last-child {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        @media (max-width: 767px) {
+            body.h-full { height: auto; min-height: 100dvh; }
+            body > header.h-11 { height: auto; }
+            aside > .flex-1 { flex: none; min-height: 0; max-height: none; }
+            #dynamic-index-container, #chat-messages { flex: none; }
+            main > .absolute.top-3 {
+                position: relative;
+                inset: auto;
+                flex: none;
+                margin: 0.75rem;
+            }
+            #graph-container { flex: 1; min-height: 0; height: auto; }
+        }
+
+        #node-search, #chat-input { border-width: 2px; }
+        #node-search:focus, #chat-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: inset 0 0 5px rgb(139 92 246 / 20%), 0 0 0 1px rgb(139 92 246 / 45%), 0 0 18px rgb(139 92 246 / 30%);
+            animation: input-led-glow 2.4s ease-in-out infinite;
+        }
+        @keyframes input-led-glow {
+            0%, 100% {
+                border-color: #8b5cf6;
+                box-shadow: inset 0 0 4px rgb(139 92 246 / 15%), 0 0 0 1px rgb(139 92 246 / 30%), 0 0 12px rgb(139 92 246 / 20%);
+            }
+            50% {
+                border-color: #c4b5fd;
+                box-shadow: inset 0 0 7px rgb(196 181 253 / 25%), 0 0 0 1px rgb(139 92 246 / 85%), 0 0 18px rgb(139 92 246 / 60%), 0 0 34px rgb(139 92 246 / 35%);
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #node-search:focus, #chat-input:focus { animation: none; }
+        }
+
+        /* Toolbars occupy their own rows rather than covering map labels. */
+        main.research-map { padding-bottom: 60px; }
+        main.research-map > .absolute.top-3 {
+            position: relative;
+            inset: auto;
+            flex: none;
+            margin: 0.75rem;
+        }
+        main.research-map #graph-container { flex: 1; min-height: 0; height: auto; }
+        main.research-map > .absolute.bottom-4.right-4 { flex-direction: row; }
+        main.research-map > .absolute.bottom-4.right-4 > div { width: 1px; height: 24px; margin: 4px 0; }
+        main.research-map > .map-help {
+            position: relative;
+            inset: auto;
+            flex: none;
+            max-width: none;
+            margin: 0.75rem;
+        }
+        .node-label {
+            paint-order: stroke fill;
+            stroke: #09090b;
+            stroke-width: 3px;
+            stroke-linejoin: round;
+            vector-effect: non-scaling-stroke;
+        }
     </style>
 </head>
 <body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
@@ -70,7 +180,7 @@
         <div class="flex items-center gap-3">
             <div class="w-2.5 h-2.5 rounded-full bg-zinc-100"></div>
             <span class="text-xs font-semibold tracking-wider text-zinc-200 uppercase font-mono">InvestiGraph</span>
-            <span class="text-[11px] text-zinc-500 font-mono">/ Explorer v2.4</span>
+            <span class="text-[11px] text-zinc-500 font-mono">/ Exploración · Demo</span>
         </div>
 
         <div class="flex items-center gap-4 text-xs text-zinc-400">
@@ -112,7 +222,7 @@
                 <div class="px-3.5 py-2 border-b border-zinc-800/60 flex items-center justify-between bg-zinc-900/20">
                     <div class="flex items-center gap-2">
                         <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                        <span class="text-xs font-medium text-zinc-300 tracking-tight">S&iacute;ntesis Estructurada / &Iacute;ndice</span>
+                        <span class="text-xs font-medium text-zinc-300 tracking-tight">Índice del tema</span>
                     </div>
                     <span class="text-[10px] font-mono text-zinc-500" id="index-item-count">3 Cap&iacute;tulos</span>
                 </div>
@@ -128,10 +238,10 @@
                 <div class="px-3.5 py-2 border-b border-zinc-800/60 flex items-center justify-between bg-zinc-900/30">
                     <div class="flex items-center gap-2">
                         <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        <span class="text-xs font-medium text-zinc-300">Validaci&oacute;n Contextual de Inter&eacute;s</span>
+                        <span class="text-xs font-medium text-zinc-300">Explora tus intereses</span>
                     </div>
                     <span class="text-[10px] font-mono text-emerald-400/90 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> IA Activa
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Demo
                     </span>
                 </div>
 
@@ -151,7 +261,7 @@
                         <input 
                             type="text" 
                             id="chat-input"
-                            placeholder="Pregunta para profundizar o validar inter&eacute;s..." 
+                            placeholder="Tu pregunta..."
                             class="flex-1 bg-zinc-950 border border-zinc-800 rounded-md px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
                             autocomplete="off"
                         >
@@ -168,7 +278,7 @@
         </aside>
 
         <!-- MAIN AREA: INTERACTIVE DIRECTED GRAPH CANVAS (70% width) -->
-        <main class="flex-1 relative bg-[#09090b] overflow-hidden flex flex-col">
+        <main class="research-map flex-1 relative bg-[#09090b] overflow-hidden flex flex-col">
 
             <!-- GRAPH OVERLAY LEGEND & SEARCH BAR -->
             <div class="absolute top-3 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
@@ -177,7 +287,7 @@
                 <div class="pointer-events-auto bg-zinc-900/85 backdrop-blur-md border border-zinc-800/90 rounded-lg p-2.5 shadow-xl text-[11px] text-zinc-400 flex items-center gap-5 font-mono">
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3 rounded-full border border-zinc-400 bg-zinc-800"></div>
-                        <span>Tama&ntilde;o = Amplitud/Hijos</span>
+                        <span>Tamaño = Subtemas</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-3 h-3 rounded-full bg-indigo-900 border border-indigo-500"></div>
@@ -199,7 +309,7 @@
                         <input 
                             type="text" 
                             id="node-search" 
-                            placeholder="Buscar &aacute;rea en grafo..." 
+                            placeholder="Buscar un área..."
                             class="bg-zinc-900/90 backdrop-blur border border-zinc-800 rounded-lg px-3 py-1.5 pl-8 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 w-52"
                         >
                         <svg class="w-3.5 h-3.5 text-zinc-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -228,8 +338,8 @@
             </div>
 
             <!-- FLOATING HELP TIP (BOTTOM LEFT) -->
-            <div class="absolute bottom-4 left-4 z-10 text-[11px] font-mono text-zinc-500 bg-zinc-900/70 border border-zinc-800/60 backdrop-blur px-3 py-1.5 rounded-md pointer-events-none">
-                Clic Izq: Seleccionar/Revisar nodo &bull; Clic Der: Men&uacute; de opciones
+            <div class="map-help absolute bottom-4 left-4 z-10 text-[11px] font-mono text-zinc-500 bg-zinc-900/70 border border-zinc-800/60 backdrop-blur px-3 py-1.5 rounded-md pointer-events-none">
+                Clic en un círculo: detalles. Clic derecho: opciones.
             </div>
         </main>
     </div>
@@ -246,7 +356,7 @@
         <div class="py-1">
             <button id="ctx-expand-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-200">
                 <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-                <span>Pedir sugerencias de sub-&aacute;reas</span>
+                <span>Ver sugerencias de subtemas</span>
             </button>
             <button id="ctx-toggle-review-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-300">
                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -256,7 +366,7 @@
         <div class="py-1">
             <button id="ctx-delete-btn" class="w-full text-left px-3 py-1.5 hover:bg-red-950/40 hover:text-red-300 flex items-center gap-2 text-red-400">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                <span>Eliminar &aacute;rea del grafo</span>
+                <span>Eliminar tema del mapa</span>
             </button>
         </div>
     </div>
@@ -512,8 +622,8 @@
                 ? "Marcar como No Revisado" 
                 : "Marcar como Revisado";
 
-            menu.style.left = `${event.clientX}px`;
-            menu.style.top = `${event.clientY}px`;
+            menu.style.left = `clamp(12px, ${event.clientX}px, calc(100vw - min(14rem, calc(100vw - 1.5rem)) - 12px))`;
+            menu.style.top = `clamp(12px, ${event.clientY}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`;
             menu.classList.remove("hidden");
             
             setTimeout(() => {

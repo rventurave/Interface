@@ -17,7 +17,7 @@ function GroupNode({ data }: NodeProps) {
   return (
     <div className="relative h-full w-full rounded-3xl border border-dashed border-primary/50 bg-primary/[0.04] shadow-[inset_0_0_60px_rgba(139,92,246,0.06)]">
       <div className="absolute left-3 top-3">
-        <span className="inline-block rounded-lg bg-primary/15 px-3 py-1 text-xs font-semibold text-primary">
+        <span className="inline-block rounded-lg bg-primary/15 px-3 py-1 text-xs font-semibold text-violet-300">
           {label ?? 'Tú'}
         </span>
         {detail && <p className="mt-1.5 text-xs text-white/70">{detail}</p>}

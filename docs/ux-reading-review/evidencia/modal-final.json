@@ -1,0 +1,65 @@
+{
+  "note": "Final confirmation preserving the original resize:none style; no new resizing interaction.",
+  "records": [
+    {
+      "width": 320,
+      "resize": "none",
+      "fields": [
+        {
+          "text": "Aplicaciones de inteligencia artificial en la educación universitaria",
+          "width": 220,
+          "textWidth": 529.5,
+          "fontPx": 16,
+          "placeholderClipped": false
+        }
+      ],
+      "contrastFailures": [],
+      "button": {
+        "text": "Crear alternativa",
+        "tag": "H3",
+        "selector": "text-base font-semibold",
+        "foreground": "#ffffff",
+        "background": "#14101f",
+        "contrast": 18.6891,
+        "required": 4.5,
+        "pass": true,
+        "exempt": null,
+        "fontPx": 16,
+        "effectiveFontPx": 16,
+        "weight": "600",
+        "lineHeight": "24px",
+        "graph": false
+      }
+    },
+    {
+      "width": 1440,
+      "resize": "none",
+      "fields": [
+        {
+          "text": "Aplicaciones de inteligencia artificial en la educación universitaria",
+          "width": 380,
+          "textWidth": 529.5,
+          "fontPx": 16,
+          "placeholderClipped": false
+        }
+      ],
+      "contrastFailures": [],
+      "button": {
+        "text": "Crear alternativa",
+        "tag": "H3",
+        "selector": "text-base font-semibold",
+        "foreground": "#ffffff",
+        "background": "#14101f",
+        "contrast": 18.6891,
+        "required": 4.5,
+        "pass": true,
+        "exempt": null,
+        "fontPx": 16,
+        "effectiveFontPx": 16,
+        "weight": "600",
+        "lineHeight": "24px",
+        "graph": false
+      }
+    }
+  ]
+}

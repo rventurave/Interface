@@ -75,11 +75,11 @@ export default function MainPanel({
     <section className="flex min-h-screen flex-col px-6 py-6 lg:h-full lg:min-h-0 lg:px-12 lg:py-8">
       <header className="flex items-center gap-2.5">
         <BrainLogo className="h-6 w-6" />
-        <span className="text-sm font-medium text-white/70">IA de Investigación</span>
+        <span className="text-sm font-medium text-white/70">IA de investigación · Demo</span>
       </header>
 
       <h1 className="mt-8 text-center text-3xl font-extrabold tracking-tight lg:text-4xl">
-        Cuéntame tu <span className="text-primary">experiencia</span>
+        Descubre tu <span className="text-violet-300">tema de investigación</span>
       </h1>
 
       <div className="min-h-0 flex-1 overflow-y-auto py-6">
@@ -88,7 +88,7 @@ export default function MainPanel({
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
+                className={`max-w-[85%] break-words rounded-2xl px-4 py-3 text-base ${
                   message.role === 'user'
                     ? 'self-end bg-primary/20 text-white'
                     : 'self-start border border-white/10 bg-white/5 text-white/75'
@@ -99,8 +99,8 @@ export default function MainPanel({
             ))}
           </div>
         ) : (
-          <p className="mx-auto max-w-md text-center text-sm text-white/45">
-            Tu asistente construye un perfil de investigación a partir de lo que compartes.
+          <p className="mx-auto max-w-md text-center text-base text-white/75">
+            Comparte tus intereses para empezar.
           </p>
         )}
       </div>
@@ -120,8 +120,8 @@ export default function MainPanel({
           onSubmit={submit}
           placeholder={
             selectedQuestion
-              ? 'Escribe tu respuesta...'
-              : 'Descríbete...'
+              ? 'Tu respuesta...'
+              : 'Tus intereses...'
           }
           listening={listening}
           onToggleListening={() => setListening((prev) => !prev)}

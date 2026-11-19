@@ -11,8 +11,8 @@ export default function ArticleDetails({
 }: ArticleDetailsProps) {
   if (!article) {
     return (
-      <div className="glow-card p-5 text-sm text-white/50">
-        Selecciona un artículo para consultar sus detalles. Tópico de referencia:{' '}
+      <div className="glow-card p-5 text-sm text-white/75">
+        Selecciona un artículo para ver sus detalles. Tema:{' '}
         <span className="text-white/80">{topicLabel}</span>.
       </div>
     );
@@ -20,16 +20,16 @@ export default function ArticleDetails({
 
   return (
     <div className="glow-card p-5">
-      <p className="text-xs uppercase tracking-wider text-white/40">
+      <p className="text-sm font-medium tracking-normal text-white/75">
         {article.venue} · {article.year}
       </p>
-      <h2 className="mt-1 text-lg font-bold leading-tight">{article.title}</h2>
-      <p className="mt-1.5 text-xs text-white/50">{article.authors.join(', ')}</p>
+      <h2 className="mt-1 text-lg font-bold leading-snug">{article.title}</h2>
+      <p className="mt-1.5 text-sm text-white/75">{article.authors.join(', ')}</p>
 
-      <p className="mt-4 text-sm text-white/65">{article.abstract}</p>
+      <p className="mt-4 text-base text-white/75">{article.abstract}</p>
 
       <div className="mt-4">
-        <p className="text-xs uppercase tracking-wider text-white/40">Relevancia</p>
+        <p className="text-sm font-medium tracking-normal text-white/75">Relevancia</p>
         <div className="mt-2 flex items-center gap-3">
           <div className="h-1.5 flex-1 rounded-full bg-white/5">
             <div

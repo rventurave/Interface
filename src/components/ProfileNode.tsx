@@ -21,7 +21,7 @@ function ProfileNode({ data }: NodeProps) {
   const size = NODE_RADIUS * 2;
 
   return (
-    <div className="flex flex-col items-center" style={{ width: size }}>
+    <div className="map-profile-node flex flex-col items-center" style={{ width: 120 }} title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
       <div className="relative">
         <div
           className="flex items-center justify-center rounded-full border-2 text-center font-semibold transition-transform hover:scale-105"
@@ -33,7 +33,7 @@ function ProfileNode({ data }: NodeProps) {
             background: style.bg,
             boxShadow: `0 0 18px ${style.glow}`,
             borderWidth: important ? 3 : 2,
-            fontSize: 11,
+            fontSize: 14,
           }}
         >
           {score != null ? (
@@ -43,7 +43,7 @@ function ProfileNode({ data }: NodeProps) {
           )}
         </div>
         {important && (
-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-[11px] font-bold text-black shadow">
+          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
             ★
           </span>
         )}
@@ -58,7 +58,7 @@ function ProfileNode({ data }: NodeProps) {
           style={{ background: color, border: '2px solid #050505' }}
         />
       </div>
-      <span className="mt-1.5 whitespace-nowrap text-center text-xs font-medium text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+      <span className="map-node-label mt-1.5 w-full text-center text-base font-medium leading-snug text-white/85">
         {label}
       </span>
     </div>

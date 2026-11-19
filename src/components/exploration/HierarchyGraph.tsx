@@ -105,7 +105,7 @@ export default function HierarchyGraph({
   const canDelete = menuNode ? menuNode.id !== 'career' : false;
 
   return (
-    <div className="relative h-full w-full">
+    <div className="map-frame relative h-full w-full overflow-hidden">
       <ReactFlow
         nodes={nodes}
         edges={edges}

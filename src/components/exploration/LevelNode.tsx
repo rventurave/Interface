@@ -18,10 +18,10 @@ function LevelNode({ data }: NodeProps) {
   const meta = LEVEL_META[level];
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
       <div className="relative">
         <div
-          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-[11px] font-semibold"
+          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
           style={{
             color: meta.text,
             borderColor: meta.color,
@@ -34,12 +34,12 @@ function LevelNode({ data }: NodeProps) {
           {affinity != null ? `${affinity}%` : label.charAt(0).toUpperCase()}
         </div>
         {isCustom && (
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-[9px] text-white/70">
+          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-xs text-white/70">
             ★
           </span>
         )}
         {important && (
-          <span className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-[10px] font-bold text-black shadow">
+          <span className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
             ★
           </span>
         )}
@@ -54,7 +54,7 @@ function LevelNode({ data }: NodeProps) {
           style={{ background: meta.color }}
         />
       </div>
-      <span className="mt-1.5 w-[150px] text-center text-xs font-medium leading-tight text-white/85">
+      <span className="map-node-label mt-1.5 w-[150px] text-center text-sm font-medium leading-snug text-white/85">
         {label}
       </span>
     </div>

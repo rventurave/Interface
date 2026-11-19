@@ -19,15 +19,15 @@ export default function QuestionCards({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <span className="text-[10px] uppercase tracking-wider text-white/30">
-          Preguntas guiadas
+        <span className="text-sm font-medium tracking-normal text-white/75">
+          Elige una pregunta
         </span>
         <button
           type="button"
           onClick={onReload}
           title="Cambiar preguntas"
           aria-label="Cambiar preguntas"
-          className="flex h-6 w-6 items-center justify-center rounded-md text-white/35 transition-colors hover:bg-white/5 hover:text-white"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-white/75 transition-colors hover:bg-white/5 hover:text-white"
         >
           <ReloadIcon className="h-3.5 w-3.5" />
         </button>
@@ -43,7 +43,7 @@ export default function QuestionCards({
               key={question.id}
               type="button"
               onClick={() => onSelect(question.id)}
-              className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-all duration-300 ${
+              className={`flex max-w-full items-center gap-2 rounded-2xl border px-3 py-2.5 text-left text-sm transition-all duration-300 ${
                 isSelected
                   ? 'border-primary/70 bg-primary/15 text-white'
                   : 'border-white/10 bg-white/[0.03] text-white/70 hover:border-primary/40 hover:text-white'
@@ -54,7 +54,7 @@ export default function QuestionCards({
                   isSelected ? 'bg-primary' : 'bg-white/30'
                 }`}
               />
-              <span className="truncate">{question.title}</span>
+              <span className="whitespace-normal">{question.title}</span>
             </button>
           );
         })}

@@ -74,7 +74,7 @@ export default function PreferenceGraph({
     : null;
 
   return (
-    <div className="glow-card h-[420px] w-full overflow-hidden lg:h-[440px]">
+    <div className="glow-card map-frame map-frame--profile h-[524px] w-full overflow-hidden lg:h-[544px]">
       <ReactFlow
         nodes={nodes}
         edges={edges}

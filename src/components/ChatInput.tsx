@@ -26,14 +26,15 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className="glow-card flex items-center gap-2.5 rounded-full px-3.5 py-2.5"
+      className="glow-card input-feedback flex items-center gap-2.5 rounded-full px-3.5 py-2.5"
     >
-      <AIIcon className="h-5 w-5 shrink-0 text-primary" />
+      <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
       <input
+        aria-label="Intereses o respuesta a la pregunta elegida"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/35"
+        className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/75"
       />
       <button
         type="button"

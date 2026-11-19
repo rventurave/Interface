@@ -14,15 +14,15 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
     <div className="glow-card p-5">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="text-xs uppercase tracking-wider text-white/40">
+          <p className="text-sm font-medium tracking-normal text-white/75">
             {KIND_LABELS[data.kind]}
           </p>
-          <h3 className="mt-1 text-lg font-bold leading-tight">{data.label}</h3>
+          <h3 className="mt-1 text-lg font-bold leading-snug">{data.label}</h3>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white/75 transition-colors hover:bg-white/5 hover:text-white"
           title="Cerrar detalle"
           aria-label="Cerrar detalle"
         >
@@ -31,7 +31,7 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
       </div>
 
       {data.important && (
-        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-1 text-xs font-medium text-amber-300">
+        <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-400/15 px-2.5 py-1 text-sm font-medium text-amber-300">
           ★ Importante
         </span>
       )}
@@ -48,14 +48,14 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
 
       {data.tags && data.tags.length > 0 && (
         <div className="mt-4">
-          <p className="text-xs uppercase tracking-wider text-white/40">
+          <p className="text-sm font-medium tracking-normal text-white/75">
             Relacionado con
           </p>
           <div className="mt-1.5 flex flex-wrap gap-2">
             {data.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-white/70"
+                className="rounded-full bg-white/5 px-2.5 py-1 text-sm text-white/70"
               >
                 {tag}
               </span>
@@ -64,9 +64,8 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
         </div>
       )}
 
-      <p className="mt-4 text-sm text-white/60">
-        Nodo de tipo {KIND_LABELS[data.kind].toLowerCase()} del grafo de preferencias.
-        Se relaciona con otros nodos según etiquetas comunes.
+      <p className="mt-4 text-sm text-white/75">
+        Las conexiones indican etiquetas compartidas.
       </p>
     </div>
   );

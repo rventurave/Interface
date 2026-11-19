@@ -42,8 +42,8 @@ export default function NodeChat({ nodeId, nodeLabel }: NodeChatProps) {
   return (
     <div className="flex w-full flex-col">
       {nodeLabel && (
-        <div className="mb-3 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-xs text-primary">
-          <span className="truncate">[Preguntando sobre: {nodeLabel}]</span>
+        <div className="mb-3 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-violet-300">
+          <span className="break-words">Sobre: {nodeLabel}</span>
         </div>
       )}
 
@@ -52,7 +52,7 @@ export default function NodeChat({ nodeId, nodeLabel }: NodeChatProps) {
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
+              className={`max-w-[90%] break-words rounded-2xl px-3 py-2 text-base ${
                 message.role === 'user'
                   ? 'self-end bg-primary/20 text-white'
                   : 'self-start border border-white/10 bg-white/5 text-white/75'
@@ -66,19 +66,20 @@ export default function NodeChat({ nodeId, nodeLabel }: NodeChatProps) {
 
       <form
         onSubmit={handleSubmit}
-        className="glow-card flex items-center gap-2 rounded-full px-3 py-2.5"
+        className="glow-card input-feedback flex items-center gap-2 rounded-full px-3 py-2.5"
       >
-        <AIIcon className="h-5 w-5 shrink-0 text-primary" />
+        <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
         <input
+          aria-label="Pregunta sobre el tema seleccionado"
           value={value}
           onChange={(event) => setValue(event.target.value)}
           placeholder={
             nodeLabel
-              ? `Pregunta sobre ${nodeLabel}...`
-              : 'Selecciona un nodo para preguntar...'
+              ? 'Tu pregunta...'
+              : 'Elige un tema...'
           }
           disabled={!nodeId}
-          className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/35 disabled:opacity-50"
+          className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/75 disabled:opacity-50"
         />
         <button
           type="button"

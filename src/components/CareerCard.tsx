@@ -15,11 +15,11 @@ export default function CareerCard({ onClick }: CareerCardProps) {
       <BrainLogo className="h-9 w-9 shrink-0" />
       <span className="flex-1">
         <span className="block font-semibold">Comenzar a explorar</span>
-        <span className="block text-sm text-white/55">
-          Explora áreas, subáreas, tópicos y artículos científicos.
+        <span className="block text-sm text-white/75">
+          Descubre áreas, temas y artículos científicos.
         </span>
       </span>
-      <ChevronRightIcon className="h-5 w-5 text-white/40" />
+      <ChevronRightIcon className="h-5 w-5 text-white/75" />
     </button>
   );
 }

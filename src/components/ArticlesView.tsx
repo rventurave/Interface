@@ -89,17 +89,17 @@ export default function ArticlesView({ topic, onBack }: ArticlesViewProps) {
   return (
     <div className="flex min-w-0 flex-1 flex-col pt-14 lg:flex-row lg:pt-0">
       <div className="flex w-full flex-col lg:h-screen lg:w-[30%] lg:overflow-hidden lg:border-r lg:border-primary/20">
-        <div className="flex flex-col px-5 py-6 lg:h-full lg:px-6 lg:py-8">
-          <header className="flex items-center gap-2.5">
+        <div className="flex flex-col px-5 py-6 lg:h-full lg:px-6 lg:pb-24 lg:pt-8">
+          <header className="flex flex-wrap items-center gap-2.5">
             <button
               type="button"
               onClick={onBack}
-              className="rounded-lg border border-white/10 px-2.5 py-1 text-xs text-white/60 transition-colors hover:text-white"
+              className="rounded-lg border border-white/10 px-2.5 py-1 text-sm text-white/75 transition-colors hover:text-white"
             >
-              ← Volver al árbol
+              ← Volver a los temas
             </button>
             <BrainLogo className="h-6 w-6" />
-            <span className="text-sm font-medium text-white/70">Artículos científicos</span>
+            <span className="text-sm font-medium text-white/70">Artículos de ejemplo</span>
           </header>
 
           <div className="mt-6 lg:flex-1 lg:overflow-y-auto">
@@ -107,14 +107,14 @@ export default function ArticlesView({ topic, onBack }: ArticlesViewProps) {
           </div>
 
           <div className="mt-4">
-            <p className="mb-2 text-xs uppercase tracking-wider text-white/40">
+            <p className="mb-2 text-sm font-medium tracking-normal text-white/75">
               Tipo de relación
             </p>
             <div className="flex flex-wrap gap-2">
               {Object.entries(ARTICLE_RELATION_META).map(([key, meta]) => (
                 <span
                   key={key}
-                  className="flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-xs text-white/70"
+                  className="flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-sm text-white/70"
                 >
                   <span
                     className="h-2 w-2 rounded-full"
@@ -128,7 +128,7 @@ export default function ArticlesView({ topic, onBack }: ArticlesViewProps) {
         </div>
       </div>
 
-      <div className="h-[72vh] w-full lg:h-screen lg:w-[70%]">
+      <div className="map-frame h-[72vh] w-full lg:h-screen lg:w-[70%]">
         <ReactFlow
           nodes={nodes}
           edges={edges}

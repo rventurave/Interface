@@ -12,9 +12,9 @@ function RootNode({ data }: NodeProps) {
   const { label, isSelected, important } = data as unknown as RootData;
 
   return (
-    <div className="relative flex flex-col items-center">
+    <div className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
       <div
-        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-xs font-bold leading-tight text-white"
+        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
         style={{
           boxShadow: isSelected
             ? '0 0 28px rgba(139,92,246,0.7)'

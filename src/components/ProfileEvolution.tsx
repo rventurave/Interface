@@ -35,17 +35,17 @@ export default function ProfileEvolution({ nodes }: ProfileEvolutionProps) {
 
   return (
     <div className="glow-card p-5">
-      <p className="font-semibold">Evolución del perfil</p>
-      <p className="mt-1 text-xs text-white/50">
-        Tu perfil crece con cada conversación y decisión.
+      <p className="font-semibold">Resumen del perfil</p>
+      <p className="mt-1 text-sm text-white/75">
+        Elementos por categoría en este ejemplo.
       </p>
 
       <div className="mt-4 flex flex-col gap-3">
         {ROWS.map(({ kind, label }) => (
           <div key={kind}>
-            <div className="mb-1.5 flex items-center justify-between text-xs">
+            <div className="mb-1.5 flex items-center justify-between text-sm">
               <span className="text-white/70">{label}</span>
-              <span className="text-white/50">{counts[kind]}</span>
+              <span className="text-white/75">{counts[kind]}</span>
             </div>
             <div className="h-1.5 rounded-full bg-white/5">
               <div

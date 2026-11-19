@@ -14,10 +14,10 @@ function ArticleNode({ data }: NodeProps) {
     relevance >= 0.8 ? '#22C55E' : relevance >= 0.5 ? '#3B82F6' : '#8B5CF6';
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
       <div className="relative">
         <div
-          className="flex h-24 w-44 items-center justify-center rounded-lg border-2 p-2 text-center text-[11px] font-medium leading-tight text-white"
+          className="flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
           style={{
             borderColor: color,
             background: '#14101f',
@@ -28,7 +28,7 @@ function ArticleNode({ data }: NodeProps) {
         >
           {title}
         </div>
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-2 text-[10px] text-white/70">
+        <span className="mx-auto mt-1 block w-fit rounded-full bg-[#14101f] px-2 text-sm leading-snug text-white/80">
           {year}
         </span>
         <Handle

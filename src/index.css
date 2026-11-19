@@ -11,6 +11,24 @@
 
   body {
     @apply bg-ink text-white font-inter antialiased;
+    line-height: 1.6;
+  }
+
+  p {
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+  }
+
+  input,
+  textarea {
+    font-size: 1rem;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid #c4b5fd;
+    outline-offset: 3px;
   }
 
   * {
@@ -39,6 +57,43 @@
   }
 }
 
+.input-feedback {
+  border-width: 2px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.input-feedback:has(input:enabled:focus) {
+  border-color: #8b5cf6;
+  box-shadow: inset 0 0 5px rgb(139 92 246 / 20%), 0 0 0 1px rgb(139 92 246 / 45%), 0 0 18px rgb(139 92 246 / 30%);
+  animation: input-led-glow 2.4s ease-in-out infinite;
+}
+
+.input-feedback input:focus-visible {
+  outline: none;
+}
+
+@keyframes input-led-glow {
+  0%,
+  100% {
+    border-color: #8b5cf6;
+    box-shadow: inset 0 0 4px rgb(139 92 246 / 15%), 0 0 0 1px rgb(139 92 246 / 30%), 0 0 12px rgb(139 92 246 / 20%);
+  }
+  50% {
+    border-color: #c4b5fd;
+    box-shadow: inset 0 0 7px rgb(196 181 253 / 25%), 0 0 0 1px rgb(139 92 246 / 85%), 0 0 18px rgb(139 92 246 / 60%), 0 0 34px rgb(139 92 246 / 35%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input-feedback {
+    transition: none;
+  }
+
+  .input-feedback:has(input:enabled:focus) {
+    animation: none;
+  }
+}
+
 .react-flow__controls {
   box-shadow: none;
   border: 1px solid rgba(139, 92, 246, 0.3);
@@ -48,10 +103,10 @@
 }
 
 .react-flow__controls-button {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   background: #14101f;
-  color: #8b5cf6;
+  color: #c4b5fd;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -60,11 +115,77 @@
 }
 
 .react-flow__controls-button svg {
-  fill: #8b5cf6;
+  fill: #c4b5fd;
 }
 
 .react-flow__minimap {
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: 10px;
   overflow: hidden;
+}
+
+/* Keep map tools outside the drawing area without changing pan or zoom handlers. */
+.map-frame {
+  --map-tools-space: 60px;
+  position: relative;
+  padding-bottom: var(--map-tools-space);
+  background: linear-gradient(to top, #100c18 var(--map-tools-space), #050505 var(--map-tools-space));
+}
+
+.map-frame--profile {
+  --map-tools-space: 104px;
+}
+
+.map-frame > .react-flow {
+  /* React Flow writes overflow:hidden inline; only its tools may leave the canvas. */
+  overflow: visible !important;
+}
+
+.map-frame .react-flow__renderer {
+  overflow: hidden;
+}
+
+.map-frame .react-flow__panel.react-flow__controls {
+  bottom: calc(12px - var(--map-tools-space));
+  left: 12px;
+  margin: 0;
+  flex-direction: row;
+}
+
+.map-frame .react-flow__panel.react-flow__minimap {
+  bottom: calc(12px - var(--map-tools-space));
+  right: 12px;
+  margin: 0;
+}
+
+.map-node-label {
+  overflow-wrap: anywhere;
+  border-radius: 6px;
+  background: #14101f;
+  padding: 3px 5px;
+}
+
+.react-flow__node:has(.map-interactive-node) {
+  cursor: pointer;
+}
+
+.react-flow__node-profile {
+  cursor: grab;
+}
+
+.react-flow__node-profile.dragging {
+  cursor: grabbing;
+}
+
+.react-flow__node:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+.react-flow__node:has(.map-interactive-node):hover > .map-interactive-node,
+.react-flow__node-profile:hover > .map-profile-node {
+  outline: 1px solid #c4b5fd;
+  outline-offset: 3px;
+  border-radius: 10px;
 }

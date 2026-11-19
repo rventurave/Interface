@@ -1,0 +1,400 @@
+--- antes/src/components/ArticlesView.tsx
++++ despues/src/components/ArticlesView.tsx
+@@ -96,10 +96,10 @@
+               onClick={onBack}
+               className="rounded-lg border border-white/10 px-2.5 py-1 text-sm text-white/75 transition-colors hover:text-white"
+             >
+-              ← Volver al árbol
++              ← Volver a los temas
+             </button>
+             <BrainLogo className="h-6 w-6" />
+-            <span className="text-sm font-medium text-white/70">Artículos científicos</span>
++            <span className="text-sm font-medium text-white/70">Artículos de ejemplo</span>
+           </header>
+ 
+           <div className="mt-6 lg:flex-1 lg:overflow-y-auto">
+--- antes/src/components/ChatInput.tsx
++++ despues/src/components/ChatInput.tsx
+@@ -30,6 +30,7 @@
+     >
+       <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
+       <input
++        aria-label="Intereses o respuesta a la pregunta elegida"
+         value={value}
+         onChange={(event) => onChange(event.target.value)}
+         placeholder={placeholder}
+--- antes/src/components/ExplorerPanel.tsx
++++ despues/src/components/ExplorerPanel.tsx
+@@ -19,7 +19,7 @@
+   const meta = selectedNode ? LEVEL_META[selectedNode.level] : null;
+ 
+   return (
+-    <section className="flex flex-col px-5 py-6 lg:h-full lg:px-6 lg:pb-24 lg:pt-8">
++    <section className="flex flex-col px-5 py-6 lg:h-full lg:overflow-y-auto lg:px-6 lg:pb-24 lg:pt-8">
+       <header className="flex flex-wrap items-center gap-2.5">
+         <button
+           type="button"
+@@ -32,16 +32,20 @@
+         <span className="text-sm font-medium text-white/70">Explorador de investigación</span>
+       </header>
+ 
+-      <div className="mt-6 lg:flex-1 lg:overflow-y-auto">
++      <p className="mt-4 text-sm text-white/75">
++        Clic derecho: opciones. +: crear una idea.
++      </p>
++
++      <div className="mt-6 lg:flex-1">
+         {breadcrumb.length > 0 && (
+           <div className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-white/75">
+             {breadcrumb.map((item, index) => (
+-              <span key={item.id} className="flex items-center gap-1.5">
++              <span key={item.id} className="flex min-w-0 max-w-full items-center gap-1.5">
+                 {index > 0 && <span className="text-white/75">›</span>}
+                 <button
+                   type="button"
+                   onClick={() => onSelect(item.id)}
+-                  className="hover:text-white"
++                  className="min-w-0 break-words text-left hover:text-white"
+                 >
+                   {item.label}
+                 </button>
+@@ -52,7 +56,7 @@
+ 
+         {selectedNode && meta ? (
+           <div className="glow-card p-5">
+-            <div className="flex items-start justify-between gap-2">
++            <div className="flex flex-wrap items-start justify-between gap-2">
+               <div>
+                 <p className="text-sm font-medium tracking-normal" style={{ color: meta.color }}>
+                   {meta.label}
+@@ -70,7 +74,7 @@
+ 
+             {selectedNode.affinity != null && (
+               <div className="mt-4">
+-                <p className="text-sm font-medium tracking-normal text-white/75">Afinidad</p>
++                <p className="text-sm font-medium tracking-normal text-white/75">Coincidencia de ejemplo</p>
+                 <div className="mt-2 flex items-center gap-3">
+                   <div className="h-1.5 flex-1 rounded-full bg-white/5">
+                     <div
+@@ -89,13 +93,12 @@
+             )}
+ 
+             {selectedNode.description && (
+-              <p className="mt-4 text-sm text-white/75">{selectedNode.description}</p>
++              <p className="mt-4 text-base text-white/75">{selectedNode.description}</p>
+             )}
+           </div>
+         ) : (
+-          <div className="glow-card p-5 text-sm text-white/75">
+-            Selecciona un tema para ver sus detalles y hacer preguntas. Con clic derecho
+-            puedes ver más temas, ocultarlos o marcar uno como importante.
++          <div className="glow-card p-5 text-base text-white/75">
++            Elige un tema del mapa para ver sus detalles.
+           </div>
+         )}
+       </div>
+--- antes/src/components/GraphPanel.tsx
++++ despues/src/components/GraphPanel.tsx
+@@ -37,15 +37,16 @@
+         <div>
+           <h2 className="text-lg font-bold">Tu perfil de investigación</h2>
+           <p className="mt-1 max-w-xs text-sm text-white/75">
+-            Vista de ejemplo de tus intereses y experiencias.
++            Ejemplo simulado de tus intereses y experiencias.
+           </p>
+         </div>
+         <button
+           type="button"
+           onClick={onSimulate}
+           className="shrink-0 rounded-xl border border-primary/40 bg-primary/15 px-4 py-2 text-sm font-medium text-violet-300 transition-colors hover:bg-primary/25"
++          title="Simular cambios en el perfil de ejemplo"
+         >
+-          Simular
++          Simular perfil
+         </button>
+       </header>
+ 
+--- antes/src/components/MainPanel.tsx
++++ despues/src/components/MainPanel.tsx
+@@ -79,7 +79,7 @@
+       </header>
+ 
+       <h1 className="mt-8 text-center text-3xl font-extrabold tracking-tight lg:text-4xl">
+-        Cuéntame tu <span className="text-violet-300">experiencia</span>
++        Descubre tu <span className="text-violet-300">tema de investigación</span>
+       </h1>
+ 
+       <div className="min-h-0 flex-1 overflow-y-auto py-6">
+@@ -100,7 +100,7 @@
+           </div>
+         ) : (
+           <p className="mx-auto max-w-md text-center text-base text-white/75">
+-            Comparte tus intereses y experiencias para descubrir un tema de investigación.
++            Comparte tus intereses para empezar.
+           </p>
+         )}
+       </div>
+@@ -120,8 +120,8 @@
+           onSubmit={submit}
+           placeholder={
+             selectedQuestion
+-              ? 'Escribe tu respuesta...'
+-              : 'Escribe aquí...'
++              ? 'Tu respuesta...'
++              : 'Tus intereses...'
+           }
+           listening={listening}
+           onToggleListening={() => setListening((prev) => !prev)}
+--- antes/src/components/PreferenceNodeMenu.tsx
++++ despues/src/components/PreferenceNodeMenu.tsx
+@@ -28,8 +28,11 @@
+         }}
+       />
+       <div
+-        className="fixed z-50 w-60 rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
+-        style={{ left: x, top: y }}
++        className="fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
++        style={{
++          left: `clamp(12px, ${x}px, calc(100vw - min(15rem, calc(100vw - 1.5rem)) - 12px))`,
++          top: `clamp(12px, ${y}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`,
++        }}
+       >
+         <p className="px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
+         <button
+@@ -39,7 +42,7 @@
+             isImportant ? 'text-amber-300 hover:text-amber-200' : 'text-white/80 hover:text-white'
+           }`}
+         >
+-          {isImportant ? 'Desmarcar importante' : 'Marcar importante'}
++          {isImportant ? 'Quitar marca de importante' : 'Marcar como importante'}
+         </button>
+         <button
+           type="button"
+--- antes/src/components/ProfileEvolution.tsx
++++ despues/src/components/ProfileEvolution.tsx
+@@ -35,9 +35,9 @@
+ 
+   return (
+     <div className="glow-card p-5">
+-      <p className="font-semibold">Evolución del perfil</p>
++      <p className="font-semibold">Resumen del perfil</p>
+       <p className="mt-1 text-sm text-white/75">
+-        Tu perfil crece con cada conversación y decisión.
++        Elementos por categoría en este ejemplo.
+       </p>
+ 
+       <div className="mt-4 flex flex-col gap-3">
+--- antes/src/components/QuestionCards.tsx
++++ despues/src/components/QuestionCards.tsx
+@@ -20,7 +20,7 @@
+     <div>
+       <div className="flex items-center justify-between">
+         <span className="text-sm font-medium tracking-normal text-white/75">
+-          Elige una pregunta para empezar
++          Elige una pregunta
+         </span>
+         <button
+           type="button"
+--- antes/src/components/exploration/GenerateAlternativePanel.tsx
++++ despues/src/components/exploration/GenerateAlternativePanel.tsx
+@@ -25,17 +25,17 @@
+       onClick={onClose}
+     >
+       <div
+-        className="w-full max-w-md rounded-2xl border border-primary/30 bg-[#14101f] p-5 shadow-2xl"
++        className="w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl border border-primary/30 bg-[#14101f] p-5 shadow-2xl"
+         onClick={(event) => event.stopPropagation()}
+       >
+         <div className="flex items-start justify-between gap-4">
+           <div>
+-            <h3 className="text-base font-semibold">Crear alternativa personalizada</h3>
++            <h3 className="text-base font-semibold">Crear alternativa</h3>
+             <p className="mt-1 text-sm text-white/75">
+-              Describe una idea relacionada con el tema. La respuesta es simulada.
++              Describe qué quieres investigar. La creación es simulada.
+             </p>
+           </div>
+-          <button onClick={onClose} className="text-white/75 hover:text-white">
++          <button aria-label="Cerrar alternativa" title="Cerrar alternativa" onClick={onClose} className="shrink-0 text-white/75 hover:text-white">
+             ✕
+           </button>
+         </div>
+@@ -45,13 +45,14 @@
+         </p>
+ 
+         <textarea
++          aria-label="Idea de investigación"
+           value={prompt}
+           onChange={(event) => setPrompt(event.target.value)}
+-          placeholder="Ej.: quiero explorar aplicaciones de IA en educación..."
+-          className="mt-3 h-24 w-full resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white outline-none placeholder:text-white/75"
++          placeholder="Ej.: IA en educación"
++          className="mt-3 h-28 w-full resize-none rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-base text-white outline-none placeholder:text-white/75"
+         />
+ 
+-        <div className="mt-4 flex justify-end gap-2">
++        <div className="mt-4 flex flex-wrap justify-end gap-2">
+           <button
+             onClick={onClose}
+             className="rounded-xl border border-white/10 px-4 py-2 text-sm text-white/75 hover:text-white"
+@@ -61,9 +62,9 @@
+           <button
+             onClick={submit}
+             disabled={!prompt.trim()}
+-            className="rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
++            className="rounded-xl bg-violet-700 hover:bg-violet-600 px-4 py-2 text-sm font-medium text-white disabled:opacity-40"
+           >
+-            Generar alternativa
++            Crear alternativa
+           </button>
+         </div>
+       </div>
+--- antes/src/components/exploration/NodeChat.tsx
++++ despues/src/components/exploration/NodeChat.tsx
+@@ -52,7 +52,7 @@
+           {messages.map((message) => (
+             <div
+               key={message.id}
+-              className={`max-w-[90%] break-words rounded-2xl px-3 py-2 text-sm ${
++              className={`max-w-[90%] break-words rounded-2xl px-3 py-2 text-base ${
+                 message.role === 'user'
+                   ? 'self-end bg-primary/20 text-white'
+                   : 'self-start border border-white/10 bg-white/5 text-white/75'
+@@ -70,11 +70,12 @@
+       >
+         <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
+         <input
++          aria-label="Pregunta sobre el tema seleccionado"
+           value={value}
+           onChange={(event) => setValue(event.target.value)}
+           placeholder={
+             nodeLabel
+-              ? `Pregunta sobre ${nodeLabel}...`
++              ? 'Tu pregunta...'
+               : 'Elige un tema...'
+           }
+           disabled={!nodeId}
+--- antes/src/components/exploration/NodeMenu.tsx
++++ despues/src/components/exploration/NodeMenu.tsx
+@@ -37,19 +37,22 @@
+         }}
+       />
+       <div
+-        className="fixed z-50 w-60 rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
+-        style={{ left: x, top: y }}
++        className="fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
++        style={{
++          left: `clamp(12px, ${x}px, calc(100vw - min(15rem, calc(100vw - 1.5rem)) - 12px))`,
++          top: `clamp(12px, ${y}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`,
++        }}
+       >
+         <p className="px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
+         <button type="button" className={itemClass} onClick={onToggleExpand}>
+-          {isExpanded ? 'Contraer rama' : 'Expandir rama'}
++          {isExpanded ? 'Ocultar subtemas' : 'Ver subtemas'}
+         </button>
+         <button
+           type="button"
+           className={`${itemClass} ${isImportant ? 'text-amber-300' : ''}`}
+           onClick={onToggleImportant}
+         >
+-          {isImportant ? 'Desmarcar importante' : 'Marcar importante'}
++          {isImportant ? 'Quitar marca de importante' : 'Marcar como importante'}
+         </button>
+         {canDelete && (
+           <button
+--- antes/investigraph_explorador_minimalista_de_investigaci_n.html
++++ despues/investigraph_explorador_minimalista_de_investigaci_n.html
+@@ -94,6 +94,36 @@
+             #chat-messages { min-height: 12rem; max-height: 20rem; }
+             main { flex: none !important; height: 75vh; min-height: 32rem; }
+         }
++
++        /* Keep the existing contextual menu readable at the viewport edges. */
++        #context-menu {
++            max-width: calc(100vw - 1.5rem);
++            max-height: min(20rem, calc(100dvh - 1.5rem));
++            overflow-y: auto;
++        }
++        #context-menu-title { white-space: normal; overflow-wrap: anywhere; }
++        #chat-messages { font-size: 1rem; }
++        #prompt-suggestions { flex-wrap: wrap; white-space: normal; overflow-x: visible; }
++        #prompt-suggestions button { max-width: 100%; white-space: normal; text-align: left; }
++
++        #dynamic-index-container .group > .flex { align-items: flex-start; gap: 0.5rem; }
++        #dynamic-index-container .group > .flex > span:last-child {
++            flex-shrink: 0;
++            white-space: nowrap;
++        }
++        @media (max-width: 767px) {
++            body.h-full { height: auto; min-height: 100dvh; }
++            body > header.h-11 { height: auto; }
++            aside > .flex-1 { flex: none; min-height: 0; max-height: none; }
++            #dynamic-index-container, #chat-messages { flex: none; }
++            main > .absolute.top-3 {
++                position: relative;
++                inset: auto;
++                flex: none;
++                margin: 0.75rem;
++            }
++            #graph-container { flex: 1; min-height: 0; height: auto; }
++        }
+     </style>
+ </head>
+ <body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
+@@ -103,7 +133,7 @@
+         <div class="flex items-center gap-3">
+             <div class="w-2.5 h-2.5 rounded-full bg-zinc-100"></div>
+             <span class="text-xs font-semibold tracking-wider text-zinc-200 uppercase font-mono">InvestiGraph</span>
+-            <span class="text-[11px] text-zinc-500 font-mono">/ Explorer v2.4</span>
++            <span class="text-[11px] text-zinc-500 font-mono">/ Exploración · Demo</span>
+         </div>
+ 
+         <div class="flex items-center gap-4 text-xs text-zinc-400">
+@@ -164,7 +194,7 @@
+                         <span class="text-xs font-medium text-zinc-300">Explora tus intereses</span>
+                     </div>
+                     <span class="text-[10px] font-mono text-emerald-400/90 flex items-center gap-1">
+-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> IA Activa
++                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Demo
+                     </span>
+                 </div>
+ 
+@@ -184,7 +214,7 @@
+                         <input 
+                             type="text" 
+                             id="chat-input"
+-                            placeholder="Escribe una pregunta sobre el tema..."
++                            placeholder="Tu pregunta..."
+                             class="flex-1 bg-zinc-950 border border-zinc-800 rounded-md px-3 py-2 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"
+                             autocomplete="off"
+                         >
+@@ -279,7 +309,7 @@
+         <div class="py-1">
+             <button id="ctx-expand-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-200">
+                 <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+-                <span>Pedir sugerencias de sub-&aacute;reas</span>
++                <span>Ver sugerencias de subtemas</span>
+             </button>
+             <button id="ctx-toggle-review-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-300">
+                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+@@ -289,7 +319,7 @@
+         <div class="py-1">
+             <button id="ctx-delete-btn" class="w-full text-left px-3 py-1.5 hover:bg-red-950/40 hover:text-red-300 flex items-center gap-2 text-red-400">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+-                <span>Eliminar &aacute;rea del grafo</span>
++                <span>Eliminar tema del mapa</span>
+             </button>
+         </div>
+     </div>
+@@ -545,8 +575,8 @@
+                 ? "Marcar como No Revisado" 
+                 : "Marcar como Revisado";
+ 
+-            menu.style.left = `${event.clientX}px`;
+-            menu.style.top = `${event.clientY}px`;
++            menu.style.left = `clamp(12px, ${event.clientX}px, calc(100vw - min(14rem, calc(100vw - 1.5rem)) - 12px))`;
++            menu.style.top = `clamp(12px, ${event.clientY}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`;
+             menu.classList.remove("hidden");
+             
+             setTimeout(() => {

@@ -1,0 +1,358 @@
+{
+  "baseline": "Working tree at start of second UX review, including first-review changes",
+  "date": "2026-11-19T16:03:22.731Z",
+  "passed": true,
+  "method": "TypeScript AST comparison, preserving function bodies, handlers, state, conditions and data. Excludes only presentation attributes, visible JSX text, new static help paragraph, and two CSS coordinate values in standalone HTML. Byte hashes for unchanged source/configuration files.",
+  "files": [
+    {
+      "file": "src/App.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "f8d400328185a206d5a4f826faff59a65e95e5c2b473aba5299d758903005b5a",
+      "afterSHA256": "f8d400328185a206d5a4f826faff59a65e95e5c2b473aba5299d758903005b5a"
+    },
+    {
+      "file": "src/components/ArticlesView.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "d878ddaf543327c25d979165af129674292bebfd1aa8abd7498ad25b94db45ba",
+      "afterSHA256": "f35a41c67d7fdbc7671af8f69ec6e048252b488ce59084b135492c9d728e3302"
+    },
+    {
+      "file": "src/components/CareerCard.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "fa924053c3154a41d24affa8e6a9f6dcea5e38bb8edd69c06f8c1df029e3dcdd",
+      "afterSHA256": "fa924053c3154a41d24affa8e6a9f6dcea5e38bb8edd69c06f8c1df029e3dcdd"
+    },
+    {
+      "file": "src/components/ChatInput.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "2ae92f3f50ba92f92519a93d657c2a736229a73c98a57660b9006dde0ac6dc26",
+      "afterSHA256": "67ac4d7566d3caf20ec4443672a8c3850b60ffd1188937b53cde917fa4ef1eb4"
+    },
+    {
+      "file": "src/components/ExplorationView.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "1e2e07465a7cbbb8f44e85495743baa17c276d3ede5887d026a3b4acdd58ac56",
+      "afterSHA256": "1e2e07465a7cbbb8f44e85495743baa17c276d3ede5887d026a3b4acdd58ac56"
+    },
+    {
+      "file": "src/components/ExplorerPanel.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "f90c67153c251ca4e218ace64f70635b63f48d0ee70887b8c0d19797a93a530a",
+      "afterSHA256": "7823d7f55746dee1c41489cd49cb05e9f2305379adda504d61d78acefb6ef8d5"
+    },
+    {
+      "file": "src/components/FloatingEdge.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "ed5d254197602d31b983256a9fe37accdce4339f2ccd099d024ab6b0ede7c993",
+      "afterSHA256": "ed5d254197602d31b983256a9fe37accdce4339f2ccd099d024ab6b0ede7c993"
+    },
+    {
+      "file": "src/components/GraphPanel.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "400432dc17e0d428953f078ddd2130a1b467e89f74833be201335c94a365b682",
+      "afterSHA256": "bee22913431e190ce50b3bab7f79f6fbe459048fafd31f7e8134cd017ce445ea"
+    },
+    {
+      "file": "src/components/GroupNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "731b5c5701cf85949dc53c84192d17f2694c1ddaaec69d3871384e7dd76f40be",
+      "afterSHA256": "731b5c5701cf85949dc53c84192d17f2694c1ddaaec69d3871384e7dd76f40be"
+    },
+    {
+      "file": "src/components/Legend.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "8d2b62bd42cb085fb04adbce0c84e6c1e66a191ca30f41b6956156fa2b283699",
+      "afterSHA256": "8d2b62bd42cb085fb04adbce0c84e6c1e66a191ca30f41b6956156fa2b283699"
+    },
+    {
+      "file": "src/components/Logo.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "40bc5f5b975d759788ef637d25df31b6467c389251e5b822c603a52e2728bdf6",
+      "afterSHA256": "40bc5f5b975d759788ef637d25df31b6467c389251e5b822c603a52e2728bdf6"
+    },
+    {
+      "file": "src/components/MainPanel.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "d84187d870b3dab6055a9122a5905cbcd0ea27b4808fa2414e60afa8de9d7bd2",
+      "afterSHA256": "324df434a3c8929388978c9f03e30201a859325bff3476d42d5945914b5516f0"
+    },
+    {
+      "file": "src/components/MainView.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "a034f2e0e82d433bd3bb5a84ec4296fbb0cf609246df17dcbe341bcf476a68ef",
+      "afterSHA256": "a034f2e0e82d433bd3bb5a84ec4296fbb0cf609246df17dcbe341bcf476a68ef"
+    },
+    {
+      "file": "src/components/NodeDetail.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "6ae90febcd105739951a2f88edcbb37648781320e146462d6343ca28377bd1db",
+      "afterSHA256": "6ae90febcd105739951a2f88edcbb37648781320e146462d6343ca28377bd1db"
+    },
+    {
+      "file": "src/components/PreferenceGraph.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "a58f2d2c3e7ac1dbf1f4d2661e80448d68444b7c6cea9fa210f087fabc974e00",
+      "afterSHA256": "a58f2d2c3e7ac1dbf1f4d2661e80448d68444b7c6cea9fa210f087fabc974e00"
+    },
+    {
+      "file": "src/components/PreferenceNodeMenu.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "76256dd77484818c240c02246f6d992ee411862868d2b1de4a809a2a427d32cc",
+      "afterSHA256": "aa4ebc1a0170d338091c115759d059faff443c5832f2587ff3f668e99b5eee54"
+    },
+    {
+      "file": "src/components/ProfileEvolution.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "af67c1a4ce78bb825ccfd4f6a98fd854a89077b88158a8dc1220bf95c695e466",
+      "afterSHA256": "12431af4469cf7187690cefca7673544323a58b92c73268907f823fee1603393"
+    },
+    {
+      "file": "src/components/ProfileNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "8e32e18227b89c4e40a74196bb97701796900ff7eb38e9ae5fede14ea3568f3b",
+      "afterSHA256": "8e32e18227b89c4e40a74196bb97701796900ff7eb38e9ae5fede14ea3568f3b"
+    },
+    {
+      "file": "src/components/QuestionCards.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "399ef7ebb14c4a4ae1c090e83f64579e87d657965f32e0f9518d3e1c5ca50bf1",
+      "afterSHA256": "81abe52d6e519a77c255db313d38ac8edfd8c9cbe525e11fc2cb2974ef81a7d8"
+    },
+    {
+      "file": "src/components/exploration/ArticleDetails.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "6c602babcbab2e4d8e1ee39ec652f8f777a95323a40f4fc4c6d99afc9c369857",
+      "afterSHA256": "6c602babcbab2e4d8e1ee39ec652f8f777a95323a40f4fc4c6d99afc9c369857"
+    },
+    {
+      "file": "src/components/exploration/ArticleNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "c71996e7876b057d2790b965619d4d9f72058ac364066630822d0394369fabae",
+      "afterSHA256": "c71996e7876b057d2790b965619d4d9f72058ac364066630822d0394369fabae"
+    },
+    {
+      "file": "src/components/exploration/ArticlesNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "49e4b633596ad9fa94319070d6dc82d86fd16d3705fbdb776ccb18f8b35e8f5d",
+      "afterSHA256": "49e4b633596ad9fa94319070d6dc82d86fd16d3705fbdb776ccb18f8b35e8f5d"
+    },
+    {
+      "file": "src/components/exploration/GenerateAlternativePanel.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "2eedf8f1ec7a2eb85fb90c1a9c95abc73e10933ba0880f063d2aab77b209bfdb",
+      "afterSHA256": "19c42314cd7ff33a9985242f874b34587e8605c15735aabddc0d75866982f7f6"
+    },
+    {
+      "file": "src/components/exploration/HierarchyGraph.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "d8ff27ca122de205502c9fee71804fe924e0acd358365c35993ca44bb79f15ee",
+      "afterSHA256": "d8ff27ca122de205502c9fee71804fe924e0acd358365c35993ca44bb79f15ee"
+    },
+    {
+      "file": "src/components/exploration/LevelNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "98fbd5ce23dfb32deb2d4c0ea46ca82b9b5df3deb37131662f1a9b786b61a776",
+      "afterSHA256": "98fbd5ce23dfb32deb2d4c0ea46ca82b9b5df3deb37131662f1a9b786b61a776"
+    },
+    {
+      "file": "src/components/exploration/NodeChat.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "e0b69e2bc857f3010fa970df88a81fd1763d0f2dd65548efe4dd5690fd32e1a1",
+      "afterSHA256": "8125ee7e7772d4fa3d1568f23c28024e559c275762e5bdc1825628de0a09d34d"
+    },
+    {
+      "file": "src/components/exploration/NodeMenu.tsx",
+      "changed": true,
+      "check": "same executable AST after excluding presentation attributes, visible copy, and static help paragraph",
+      "beforeSHA256": "aaf2ff3f01da19aa3a52c9e6ac6974c0d3042ad15ed4c66f2937af930e6624f9",
+      "afterSHA256": "4aac246ac4e3e3e4dd24d071d16f93b1e4ba9670825012f83817e5811e9f1785"
+    },
+    {
+      "file": "src/components/exploration/PlusNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "2b2ee7b1a199f7948e8880d447541540e43c55ff9a13089e4c83e4be8da89448",
+      "afterSHA256": "2b2ee7b1a199f7948e8880d447541540e43c55ff9a13089e4c83e4be8da89448"
+    },
+    {
+      "file": "src/components/exploration/RootNode.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "8c3975faa00ed90ea473ba58db0ca5cd698de6f30d1627ee609328254b453f6b",
+      "afterSHA256": "8c3975faa00ed90ea473ba58db0ca5cd698de6f30d1627ee609328254b453f6b"
+    },
+    {
+      "file": "src/components/icons/Icons.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "3cf546374a83bf8eddd616fcd49c9e1df82ea1ae33021804d2ce88a3c8a5f856",
+      "afterSHA256": "3cf546374a83bf8eddd616fcd49c9e1df82ea1ae33021804d2ce88a3c8a5f856"
+    },
+    {
+      "file": "src/data/hierarchy.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "3e9a9c19aec9cc19189b86b5417acda5d60824c28301f3bedf3bab4313abfdaa",
+      "afterSHA256": "3e9a9c19aec9cc19189b86b5417acda5d60824c28301f3bedf3bab4313abfdaa"
+    },
+    {
+      "file": "src/data/initialGraph.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "c9d1c2b6772a9bcc176efd0681eb9d8870ce1e6dd6e46051119c49014ba52ce0",
+      "afterSHA256": "c9d1c2b6772a9bcc176efd0681eb9d8870ce1e6dd6e46051119c49014ba52ce0"
+    },
+    {
+      "file": "src/data/questions.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "05341a9f31dd6c28c9a97fb4013f240a588e5fb60ee38f5ae5785730defdde8a",
+      "afterSHA256": "05341a9f31dd6c28c9a97fb4013f240a588e5fb60ee38f5ae5785730defdde8a"
+    },
+    {
+      "file": "src/hooks/useHierarchyGraph.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "7e1f6d14f43487c73c39a36c8dbdca83e4e38539f299ba87858a8f41522b47c1",
+      "afterSHA256": "7e1f6d14f43487c73c39a36c8dbdca83e4e38539f299ba87858a8f41522b47c1"
+    },
+    {
+      "file": "src/hooks/usePreferenceGraph.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "84ea1038fa4a6cb7a9230a154bb5331ca1e0d53b899b21d66724a106f1165287",
+      "afterSHA256": "84ea1038fa4a6cb7a9230a154bb5331ca1e0d53b899b21d66724a106f1165287"
+    },
+    {
+      "file": "src/index.css",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "75dd5e57561b66a95ae8c7409091ad0b67dbd9dd257731414736181d29a581ed",
+      "afterSHA256": "75dd5e57561b66a95ae8c7409091ad0b67dbd9dd257731414736181d29a581ed"
+    },
+    {
+      "file": "src/main.tsx",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "8c9f8791b7df941efb1b1e10fdd916ca34d52ecc342f90e9c5bc742fc8628425",
+      "afterSHA256": "8c9f8791b7df941efb1b1e10fdd916ca34d52ecc342f90e9c5bc742fc8628425"
+    },
+    {
+      "file": "src/types/exploration.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "8e84eab8f63b091b56320fd971866a3b94627aa769c76b950954fe0c91163f3b",
+      "afterSHA256": "8e84eab8f63b091b56320fd971866a3b94627aa769c76b950954fe0c91163f3b"
+    },
+    {
+      "file": "src/types/graph.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "c2461985227aa0cd53e6bef8eefaa0e83f50180827b11d33ad4d00e319ba8bde",
+      "afterSHA256": "c2461985227aa0cd53e6bef8eefaa0e83f50180827b11d33ad4d00e319ba8bde"
+    },
+    {
+      "file": "src/types/hierarchy.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "efc938fc50f92b475666372fde2ab908e73c1fc03234abf7dfe9283c531ad612",
+      "afterSHA256": "efc938fc50f92b475666372fde2ab908e73c1fc03234abf7dfe9283c531ad612"
+    },
+    {
+      "file": "src/utils/edges.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "861e67493dde75091c1ab5ea67c001bf8753f942d1ce36fe25a333cd0d0ff909",
+      "afterSHA256": "861e67493dde75091c1ab5ea67c001bf8753f942d1ce36fe25a333cd0d0ff909"
+    },
+    {
+      "file": "investigraph_explorador_minimalista_de_investigaci_n.html",
+      "changed": true,
+      "check": "inline scripts identical except existing menu.style.left/top CSS values; static HTML/CSS copy and style changes",
+      "beforeSHA256": "000a7ce0f909369eb3cc464bb828de71123b3aa276411e687292ea3c33d4594c",
+      "afterSHA256": "321b310b63f647c92396ebfd61c21c335f0cab425ae0394c2ab755e49593f229"
+    },
+    {
+      "file": "package-lock.json",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "12685838340f4859e6c7519fc12c69f1ccf4e31a69795ccc087aa84d7fb3c367",
+      "afterSHA256": "12685838340f4859e6c7519fc12c69f1ccf4e31a69795ccc087aa84d7fb3c367"
+    },
+    {
+      "file": "package.json",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "0cc23e142e472abac3f16c2b977083ba3a159bbcb2e873f60c2f28790d47dc1e",
+      "afterSHA256": "0cc23e142e472abac3f16c2b977083ba3a159bbcb2e873f60c2f28790d47dc1e"
+    },
+    {
+      "file": "postcss.config.js",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "e32657baf631d7c5f4dc67b4b2ee0ec8e7d5b3c41860e09cddce7c0377cd80bc",
+      "afterSHA256": "e32657baf631d7c5f4dc67b4b2ee0ec8e7d5b3c41860e09cddce7c0377cd80bc"
+    },
+    {
+      "file": "tailwind.config.js",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "f350db22231d8371222b4c85a800ecd618522577cf32366291ab1c171b056813",
+      "afterSHA256": "f350db22231d8371222b4c85a800ecd618522577cf32366291ab1c171b056813"
+    },
+    {
+      "file": "tsconfig.app.json",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "e807ecb53244818d62d86b582cb4f9f407d2e6d0cd11e314e8d0ad12b2b7c79e",
+      "afterSHA256": "e807ecb53244818d62d86b582cb4f9f407d2e6d0cd11e314e8d0ad12b2b7c79e"
+    },
+    {
+      "file": "tsconfig.json",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808",
+      "afterSHA256": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808"
+    },
+    {
+      "file": "tsconfig.node.json",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "4a1878788eae7cde513396f8c0f7150218fa1ba6c8bfb123ef6fbaec649f1325",
+      "afterSHA256": "4a1878788eae7cde513396f8c0f7150218fa1ba6c8bfb123ef6fbaec649f1325"
+    },
+    {
+      "file": "vite.config.ts",
+      "changed": false,
+      "check": "byte-identical",
+      "beforeSHA256": "7fd79d59039767da436b2126957070cbcb468e16eb7d2e9d3af14e63cc0f85c4",
+      "afterSHA256": "7fd79d59039767da436b2126957070cbcb468e16eb7d2e9d3af14e63cc0f85c4"
+    }
+  ]
+}

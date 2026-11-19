@@ -12,10 +12,10 @@ function ArticlesNode({ data }: NodeProps) {
   const { label, count, isSelected } = data as unknown as ArticlesNodeData;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
       <div className="relative">
         <div
-          className="flex h-16 w-40 items-center justify-center gap-2 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-xs font-semibold text-amber-300"
+          className="flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
           style={{
             boxShadow: isSelected
               ? '0 0 22px rgba(245,158,11,0.6)'
@@ -23,9 +23,9 @@ function ArticlesNode({ data }: NodeProps) {
           }}
         >
           <DocumentIcon className="h-5 w-5 shrink-0" />
-          <span className="leading-tight">{label}</span>
+          <span className="min-w-0 break-words leading-snug">{label}</span>
           {count > 0 && (
-            <span className="rounded-full bg-amber-400/20 px-1.5 py-0.5 text-[10px] text-amber-200">
+            <span className="rounded-full bg-amber-400/20 px-1.5 py-0.5 text-sm text-amber-200">
               {count}
             </span>
           )}
