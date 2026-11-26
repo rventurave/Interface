@@ -102,6 +102,11 @@ export default function ArticlesView({ topic, onBack }: ArticlesViewProps) {
             <span className="text-sm font-medium text-white/70">Artículos de ejemplo</span>
           </header>
 
+          <p className="article-topic-context mt-4 rounded-xl border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-white/75">
+            Tema de investigación<br />
+            <strong className="break-words text-white">{topic.topicLabel}</strong>
+          </p>
+
           <div className="mt-6 lg:flex-1 lg:overflow-y-auto">
             <ArticleDetails article={selected} topicLabel={topic.topicLabel} />
           </div>

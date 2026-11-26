@@ -177,7 +177,7 @@
   cursor: grabbing;
 }
 
-.react-flow__node:focus-visible {
+.map-frame .react-flow__node.selectable:focus-visible {
   outline: 2px solid #c4b5fd;
   outline-offset: 4px;
   border-radius: 10px;
@@ -188,4 +188,163 @@
   outline: 1px solid #c4b5fd;
   outline-offset: 3px;
   border-radius: 10px;
+}
+
+/* Attention: keep prompts together, identify existing states, and quiet decoration. */
+.research-conversation:has(.conversation-intro) .conversation-body {
+  flex: none;
+}
+
+.question-choice--selected {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 2px;
+}
+
+.question-choice--selected .question-dot {
+  width: 1rem;
+  height: 1rem;
+  background: transparent;
+  color: #ddd6fe;
+}
+
+.question-choice--selected .question-dot::after {
+  content: "✓";
+  display: block;
+  font-weight: 700;
+  line-height: 1rem;
+}
+
+.conversation-message::before {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.conversation-message[data-speaker="user"]::before { content: "Tú"; }
+.conversation-message[data-speaker="ai"]::before { content: "Asistente · Demo"; }
+
+.context-card { border-color: rgb(196 181 253 / 65%); }
+.selection-kicker {
+  margin-bottom: 0.75rem;
+  color: #ddd6fe;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.selection-kicker::before { content: "✓ "; }
+
+.exploration-path > span:last-child button {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.map-interactive-node[data-selected="true"] .map-circle,
+.react-flow__node.selected .map-profile-node .map-circle {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 3px;
+}
+
+.map-interactive-node[data-selected="true"] .map-circle::after,
+.react-flow__node.selected .map-profile-node .map-circle::after {
+  content: "✓";
+  position: absolute;
+  left: -6px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #6d28d9;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.map-interactive-node[data-selected="true"] .map-node-label,
+.react-flow__node.selected .map-profile-node .map-node-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.map-interactive-node[data-selected="true"] .map-rect {
+  outline: 3px double #c4b5fd;
+  outline-offset: 3px;
+}
+
+.map-frame--profile .react-flow__edge:not(.selected) .react-flow__edge-path {
+  opacity: 0.7 !important;
+}
+
+.context-menu-heading { border-bottom: 1px solid rgb(255 255 255 / 15%); }
+.alternative-overlay { background: rgb(0 0 0 / 80%); backdrop-filter: blur(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .question-choice, .map-circle { transition: none; }
+}
+
+/* Native chat scrolling stays unchanged; only the scrollbar's visibility changes. */
+.chat-scroll-area {
+  --chat-scroll-thumb: transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: var(--chat-scroll-thumb) transparent;
+}
+
+.chat-scroll-area[data-scroll-activity="active"] {
+  --chat-scroll-thumb: #68636f;
+}
+
+.chat-scroll-area::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.chat-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-scroll-area::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: var(--chat-scroll-thumb);
+  transition: background-color 160ms ease;
+}
+
+@media (max-width: 639px) {
+  .chat-scroll-area .input-feedback {
+    gap: 6px;
+  }
+}
+
+@supports selector(::-webkit-scrollbar) {
+  .chat-scroll-area {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+}
+
+@media (hover: hover) {
+  .chat-scroll-area:hover {
+    --chat-scroll-thumb: #68636f;
+  }
+
+  .chat-scroll-area::-webkit-scrollbar-thumb:hover {
+    background-color: #c4b5fd;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    .chat-scroll-area:hover {
+      --chat-scroll-thumb: #c4b5fd;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-scroll-area::-webkit-scrollbar-thumb {
+    transition: none;
+  }
 }

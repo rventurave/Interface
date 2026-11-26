@@ -1,0 +1,359 @@
+--- antes/src/components/ArticlesView.tsx
++++ despues/src/components/ArticlesView.tsx
+@@ -128,7 +128,7 @@
+         </div>
+       </div>
+ 
+-      <div className="h-[72vh] w-full lg:h-screen lg:w-[70%]">
++      <div className="map-frame h-[72vh] w-full lg:h-screen lg:w-[70%]">
+         <ReactFlow
+           nodes={nodes}
+           edges={edges}
+--- antes/src/components/ExplorerPanel.tsx
++++ despues/src/components/ExplorerPanel.tsx
+@@ -33,7 +33,7 @@
+       </header>
+ 
+       <p className="mt-4 text-sm text-white/75">
+-        Clic derecho: opciones. +: crear una idea.
++        Clic: detalles. Clic derecho: opciones. Tópico significa tema de investigación.
+       </p>
+ 
+       <div className="mt-6 lg:flex-1">
+@@ -98,7 +98,7 @@
+           </div>
+         ) : (
+           <div className="glow-card p-5 text-base text-white/75">
+-            Elige un tema del mapa para ver sus detalles.
++            Aquí aparecerán los detalles del tema seleccionado.
+           </div>
+         )}
+       </div>
+--- antes/src/components/GraphPanel.tsx
++++ despues/src/components/GraphPanel.tsx
+@@ -37,7 +37,7 @@
+         <div>
+           <h2 className="text-lg font-bold">Tu perfil de investigación</h2>
+           <p className="mt-1 max-w-xs text-sm text-white/75">
+-            Ejemplo simulado de tus intereses y experiencias.
++            Perfil simulado. Selecciona un círculo; clic derecho: opciones.
+           </p>
+         </div>
+         <button
+--- antes/src/components/NodeDetail.tsx
++++ despues/src/components/NodeDetail.tsx
+@@ -65,8 +65,7 @@
+       )}
+ 
+       <p className="mt-4 text-sm text-white/75">
+-        Este elemento de {KIND_LABELS[data.kind].toLowerCase()} se conecta con otros elementos
+-        que comparten etiquetas.
++        Las conexiones indican etiquetas compartidas.
+       </p>
+     </div>
+   );
+--- antes/src/components/PreferenceGraph.tsx
++++ despues/src/components/PreferenceGraph.tsx
+@@ -74,7 +74,7 @@
+     : null;
+ 
+   return (
+-    <div className="glow-card h-[420px] w-full overflow-hidden lg:h-[440px]">
++    <div className="glow-card map-frame map-frame--profile h-[524px] w-full overflow-hidden lg:h-[544px]">
+       <ReactFlow
+         nodes={nodes}
+         edges={edges}
+--- antes/src/components/ProfileNode.tsx
++++ despues/src/components/ProfileNode.tsx
+@@ -21,7 +21,7 @@
+   const size = NODE_RADIUS * 2;
+ 
+   return (
+-    <div className="flex flex-col items-center" style={{ width: size }}>
++    <div className="map-profile-node flex flex-col items-center" style={{ width: 136 }} title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div className="relative">
+         <div
+           className="flex items-center justify-center rounded-full border-2 text-center font-semibold transition-transform hover:scale-105"
+@@ -33,7 +33,7 @@
+             background: style.bg,
+             boxShadow: `0 0 18px ${style.glow}`,
+             borderWidth: important ? 3 : 2,
+-            fontSize: 13,
++            fontSize: 14,
+           }}
+         >
+           {score != null ? (
+@@ -58,7 +58,7 @@
+           style={{ background: color, border: '2px solid #050505' }}
+         />
+       </div>
+-      <span className="mt-1.5 whitespace-nowrap text-center text-xs font-medium text-white/80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
++      <span className="map-node-label mt-1.5 w-full text-center text-base font-medium leading-snug text-white/85">
+         {label}
+       </span>
+     </div>
+--- antes/src/components/exploration/ArticleNode.tsx
++++ despues/src/components/exploration/ArticleNode.tsx
+@@ -14,10 +14,10 @@
+     relevance >= 0.8 ? '#22C55E' : relevance >= 0.5 ? '#3B82F6' : '#8B5CF6';
+ 
+   return (
+-    <div className="flex flex-col items-center">
++    <div className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
+       <div className="relative">
+         <div
+-          className="flex min-h-24 w-44 items-center justify-center rounded-lg border-2 p-2 text-center text-[13px] font-medium leading-snug text-white"
++          className="flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
+           style={{
+             borderColor: color,
+             background: '#14101f',
+@@ -28,7 +28,7 @@
+         >
+           {title}
+         </div>
+-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-[#14101f] px-2 text-xs text-white/70">
++        <span className="mx-auto mt-1 block w-fit rounded-full bg-[#14101f] px-2 text-sm leading-snug text-white/80">
+           {year}
+         </span>
+         <Handle
+--- antes/src/components/exploration/ArticlesNode.tsx
++++ despues/src/components/exploration/ArticlesNode.tsx
+@@ -12,10 +12,10 @@
+   const { label, count, isSelected } = data as unknown as ArticlesNodeData;
+ 
+   return (
+-    <div className="flex flex-col items-center">
++    <div className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
+       <div className="relative">
+         <div
+-          className="flex h-16 w-40 items-center justify-center gap-2 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-xs font-semibold text-amber-300"
++          className="flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
+           style={{
+             boxShadow: isSelected
+               ? '0 0 22px rgba(245,158,11,0.6)'
+@@ -23,9 +23,9 @@
+           }}
+         >
+           <DocumentIcon className="h-5 w-5 shrink-0" />
+-          <span className="leading-tight">{label}</span>
++          <span className="min-w-0 break-words leading-snug">{label}</span>
+           {count > 0 && (
+-            <span className="rounded-full bg-amber-400/20 px-1.5 py-0.5 text-xs text-amber-200">
++            <span className="rounded-full bg-amber-400/20 px-1.5 py-0.5 text-sm text-amber-200">
+               {count}
+             </span>
+           )}
+--- antes/src/components/exploration/HierarchyGraph.tsx
++++ despues/src/components/exploration/HierarchyGraph.tsx
+@@ -105,7 +105,7 @@
+   const canDelete = menuNode ? menuNode.id !== 'career' : false;
+ 
+   return (
+-    <div className="relative h-full w-full">
++    <div className="map-frame relative h-full w-full overflow-hidden">
+       <ReactFlow
+         nodes={nodes}
+         edges={edges}
+--- antes/src/components/exploration/LevelNode.tsx
++++ despues/src/components/exploration/LevelNode.tsx
+@@ -18,10 +18,10 @@
+   const meta = LEVEL_META[level];
+ 
+   return (
+-    <div className="flex flex-col items-center">
++    <div className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div className="relative">
+         <div
+-          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-xs font-semibold"
++          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
+           style={{
+             color: meta.text,
+             borderColor: meta.color,
+@@ -54,7 +54,7 @@
+           style={{ background: meta.color }}
+         />
+       </div>
+-      <span className="mt-1.5 w-[150px] text-center text-xs font-medium leading-tight text-white/85">
++      <span className="map-node-label mt-1.5 w-[150px] text-center text-sm font-medium leading-snug text-white/85">
+         {label}
+       </span>
+     </div>
+--- antes/src/components/exploration/PlusNode.tsx
++++ despues/src/components/exploration/PlusNode.tsx
+@@ -9,7 +9,7 @@
+   const { label } = data as unknown as PlusData;
+ 
+   return (
+-    <div className="flex flex-col items-center">
++    <div className="map-interactive-node flex flex-col items-center" title="Crear una alternativa de ejemplo">
+       <div className="relative">
+         <div className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-primary/70 bg-primary/10 text-2xl font-light text-violet-300 transition-colors hover:bg-primary/20">
+           +
+@@ -20,7 +20,7 @@
+           style={{ background: '#8B5CF6' }}
+         />
+       </div>
+-      <span className="mt-1.5 text-xs font-medium text-white/75">{label}</span>
++      <span className="map-node-label mt-1.5 text-sm font-medium leading-snug text-white/85">{label}</span>
+     </div>
+   );
+ }
+--- antes/src/components/exploration/RootNode.tsx
++++ despues/src/components/exploration/RootNode.tsx
+@@ -12,9 +12,9 @@
+   const { label, isSelected, important } = data as unknown as RootData;
+ 
+   return (
+-    <div className="relative flex flex-col items-center">
++    <div className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div
+-        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-xs font-bold leading-snug text-white"
++        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
+         style={{
+           boxShadow: isSelected
+             ? '0 0 28px rgba(139,92,246,0.7)'
+--- antes/src/index.css
++++ despues/src/index.css
+@@ -123,3 +123,69 @@
+   border-radius: 10px;
+   overflow: hidden;
+ }
++
++/* Keep map tools outside the drawing area without changing pan or zoom handlers. */
++.map-frame {
++  --map-tools-space: 60px;
++  position: relative;
++  padding-bottom: var(--map-tools-space);
++  background: linear-gradient(to top, #100c18 var(--map-tools-space), #050505 var(--map-tools-space));
++}
++
++.map-frame--profile {
++  --map-tools-space: 104px;
++}
++
++.map-frame > .react-flow {
++  /* React Flow writes overflow:hidden inline; only its tools may leave the canvas. */
++  overflow: visible !important;
++}
++
++.map-frame .react-flow__renderer {
++  overflow: hidden;
++}
++
++.map-frame .react-flow__panel.react-flow__controls {
++  bottom: calc(12px - var(--map-tools-space));
++  left: 12px;
++  margin: 0;
++  flex-direction: row;
++}
++
++.map-frame .react-flow__panel.react-flow__minimap {
++  bottom: calc(12px - var(--map-tools-space));
++  right: 12px;
++  margin: 0;
++}
++
++.map-node-label {
++  overflow-wrap: anywhere;
++  border-radius: 6px;
++  background: #14101f;
++  padding: 3px 5px;
++}
++
++.react-flow__node:has(.map-interactive-node) {
++  cursor: pointer;
++}
++
++.react-flow__node-profile {
++  cursor: grab;
++}
++
++.react-flow__node-profile.dragging {
++  cursor: grabbing;
++}
++
++.map-frame .react-flow__node.selectable:focus-visible {
++  outline: 2px solid #c4b5fd;
++  outline-offset: 4px;
++  border-radius: 10px;
++}
++
++.react-flow__node:has(.map-interactive-node):hover > .map-interactive-node,
++.react-flow__node-profile:hover > .map-profile-node {
++  outline: 1px solid #c4b5fd;
++  outline-offset: 3px;
++  border-radius: 10px;
++}
+--- antes/investigraph_explorador_minimalista_de_investigaci_n.html
++++ despues/investigraph_explorador_minimalista_de_investigaci_n.html
+@@ -145,6 +145,32 @@
+         @media (prefers-reduced-motion: reduce) {
+             #node-search:focus, #chat-input:focus { animation: none; }
+         }
++
++        /* Toolbars occupy their own rows rather than covering map labels. */
++        main.research-map { padding-bottom: 60px; }
++        main.research-map > .absolute.top-3 {
++            position: relative;
++            inset: auto;
++            flex: none;
++            margin: 0.75rem;
++        }
++        main.research-map #graph-container { flex: 1; min-height: 0; height: auto; }
++        main.research-map > .absolute.bottom-4.right-4 { flex-direction: row; }
++        main.research-map > .absolute.bottom-4.right-4 > div { width: 1px; height: 24px; margin: 4px 0; }
++        main.research-map > .map-help {
++            position: relative;
++            inset: auto;
++            flex: none;
++            max-width: none;
++            margin: 0.75rem;
++        }
++        .node-label {
++            paint-order: stroke fill;
++            stroke: #09090b;
++            stroke-width: 3px;
++            stroke-linejoin: round;
++            vector-effect: non-scaling-stroke;
++        }
+     </style>
+ </head>
+ <body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
+@@ -252,7 +278,7 @@
+         </aside>
+ 
+         <!-- MAIN AREA: INTERACTIVE DIRECTED GRAPH CANVAS (70% width) -->
+-        <main class="flex-1 relative bg-[#09090b] overflow-hidden flex flex-col">
++        <main class="research-map flex-1 relative bg-[#09090b] overflow-hidden flex flex-col">
+ 
+             <!-- GRAPH OVERLAY LEGEND & SEARCH BAR -->
+             <div class="absolute top-3 left-4 right-4 z-10 flex items-center justify-between pointer-events-none">
+@@ -312,8 +338,8 @@
+             </div>
+ 
+             <!-- FLOATING HELP TIP (BOTTOM LEFT) -->
+-            <div class="absolute bottom-4 left-4 z-10 text-[11px] font-mono text-zinc-500 bg-zinc-900/70 border border-zinc-800/60 backdrop-blur px-3 py-1.5 rounded-md pointer-events-none">
+-                Clic: seleccionar tema · Clic derecho: opciones
++            <div class="map-help absolute bottom-4 left-4 z-10 text-[11px] font-mono text-zinc-500 bg-zinc-900/70 border border-zinc-800/60 backdrop-blur px-3 py-1.5 rounded-md pointer-events-none">
++                Clic en un círculo: detalles. Clic derecho: opciones.
+             </div>
+         </main>
+     </div>
+@@ -330,7 +356,7 @@
+         <div class="py-1">
+             <button id="ctx-expand-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-200">
+                 <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+-                <span>Ver sugerencias de subtemas</span>
++                <span>Subtemas</span>
+             </button>
+             <button id="ctx-toggle-review-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-300">
+                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+@@ -340,7 +366,7 @@
+         <div class="py-1">
+             <button id="ctx-delete-btn" class="w-full text-left px-3 py-1.5 hover:bg-red-950/40 hover:text-red-300 flex items-center gap-2 text-red-400">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+-                <span>Eliminar tema del mapa</span>
++                <span>Eliminar</span>
+             </button>
+         </div>
+     </div>

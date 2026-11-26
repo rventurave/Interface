@@ -18,28 +18,28 @@ function LevelNode({ data }: NodeProps) {
   const meta = LEVEL_META[level];
 
   return (
-    <div className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
       <div className="relative">
         <div
-          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
+          className="map-circle relative flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
           style={{
             color: meta.text,
             borderColor: meta.color,
             background: '#14101f',
             boxShadow: isSelected
-              ? `0 0 22px ${meta.color}`
-              : `0 0 10px ${meta.color}55`,
+              ? `0 0 16px ${meta.color}`
+              : `0 0 5px ${meta.color}33`,
           }}
         >
           {affinity != null ? `${affinity}%` : label.charAt(0).toUpperCase()}
         </div>
         {isCustom && (
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-xs text-white/70">
-            ★
+          <span title="Alternativa personalizada (demo)" aria-label="Alternativa personalizada" className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-xs text-white/70">
+            P
           </span>
         )}
         {important && (
-          <span className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
+          <span title="Marcado como importante" className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
             ★
           </span>
         )}

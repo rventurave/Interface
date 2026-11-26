@@ -28,13 +28,13 @@ export default function PreferenceNodeMenu({
         }}
       />
       <div
-        className="fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
+        className="context-menu fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
         style={{
           left: `clamp(12px, ${x}px, calc(100vw - min(15rem, calc(100vw - 1.5rem)) - 12px))`,
           top: `clamp(12px, ${y}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`,
         }}
       >
-        <p className="px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
+        <p className="context-menu-heading px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
         <button
           type="button"
           onClick={onToggleImportant}

@@ -14,16 +14,16 @@ function ArticleNode({ data }: NodeProps) {
     relevance >= 0.8 ? '#22C55E' : relevance >= 0.5 ? '#3B82F6' : '#8B5CF6';
 
   return (
-    <div className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
+    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
       <div className="relative">
         <div
-          className="flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
+          className="map-rect flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
           style={{
             borderColor: color,
             background: '#14101f',
             boxShadow: isSelected
-              ? `0 0 20px ${color}`
-              : `0 0 10px ${color}55`,
+              ? `0 0 14px ${color}`
+              : `0 0 5px ${color}33`,
           }}
         >
           {title}

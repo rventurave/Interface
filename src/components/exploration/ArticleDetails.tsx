@@ -11,15 +11,15 @@ export default function ArticleDetails({
 }: ArticleDetailsProps) {
   if (!article) {
     return (
-      <div className="glow-card p-5 text-sm text-white/75">
-        Selecciona un artículo para ver sus detalles. Tema:{' '}
-        <span className="text-white/80">{topicLabel}</span>.
+      <div className="glow-card p-5 text-sm text-white/75" aria-label={`Artículos sobre ${topicLabel}`}>
+        Selecciona un artículo del mapa para ver sus detalles.
       </div>
     );
   }
 
   return (
-    <div className="glow-card p-5">
+    <div className="glow-card context-card p-5" aria-label={`Artículos sobre ${topicLabel}`}>
+      <p className="selection-kicker">Artículo seleccionado</p>
       <p className="text-sm font-medium tracking-normal text-white/75">
         {article.venue} · {article.year}
       </p>

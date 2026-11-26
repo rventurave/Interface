@@ -1,0 +1,212 @@
+{
+  "date": "2026-11-19T17:06:31.328Z",
+  "results": [
+    {
+      "width": 320,
+      "view": "profile",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 56
+        },
+        {
+          "class": "react-flow__panel react-flow__minimap bottom right",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Matemáticas. Clic: detalles. Clic derecho: opciones.",
+        "Programación. Clic: detalles. Clic derecho: opciones.",
+        "Estructuras de Datos. Clic: detalles. Clic derecho: opciones.",
+        "Cálculo Diferencial. Clic: detalles. Clic derecho: opciones.",
+        "Algoritmos. Clic: detalles. Clic derecho: opciones.",
+        "Biología Computacional. Clic: detalles. Clic derecho: opciones.",
+        "Ciencias de la Computación. Clic: detalles. Clic derecho: opciones."
+      ],
+      "textSamples": 14,
+      "contrastFailures": [],
+      "minimumContrast": 12.0337
+    },
+    {
+      "width": 320,
+      "view": "interaction-feedback",
+      "hoverOutline": "1px",
+      "focus": {
+        "visible": true,
+        "outline": "2px",
+        "outlineColor": "rgb(196, 181, 253)",
+        "cursor": "grab"
+      },
+      "selectedDetailVisible": true,
+      "profileSummaryVisible": false,
+      "led": {
+        "animation": "input-led-glow",
+        "borderWidth": "2px"
+      }
+    },
+    {
+      "width": 320,
+      "view": "native-context-menu",
+      "visible": true,
+      "inside": true
+    },
+    {
+      "width": 320,
+      "view": "hierarchy",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Ciencias de la Computación. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Inteligencia Artificial. Clic: detalles. Clic derecho: opciones.",
+        "Ingeniería de Software. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Machine Learning. Clic: detalles. Clic derecho: opciones.",
+        "Procesamiento de Lenguaje Natural. Clic: detalles. Clic derecho: opciones.",
+        "Visión por Computadora. Clic: detalles. Clic derecho: opciones.",
+        "Sistemas Inteligentes. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Aprendizaje supervisado. Clic: detalles. Clic derecho: opciones.",
+        "Aprendizaje por refuerzo. Clic: detalles. Clic derecho: opciones.",
+        "Aprendizaje profundo. Clic: detalles. Clic derecho: opciones.",
+        "Modelos predictivos. Clic: detalles. Clic derecho: opciones.",
+        "Ver artículos de ejemplo"
+      ],
+      "textSamples": 29,
+      "contrastFailures": [],
+      "minimumContrast": 8.9539
+    },
+    {
+      "width": 320,
+      "view": "articles",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Fundamentos de Aprendizaje supervisado (2023). Selecciona para ver detalles.",
+        "Aprendizaje supervisado: una revisión sistemática (2022). Selecciona para ver detalles.",
+        "Nuevas metodologías en Aprendizaje supervisado (2024). Selecciona para ver detalles.",
+        "Aplicaciones prácticas de Aprendizaje supervisado (2021). Selecciona para ver detalles.",
+        "Desafíos abiertos en Aprendizaje supervisado (2023). Selecciona para ver detalles.",
+        "Herramientas para Aprendizaje supervisado (2020). Selecciona para ver detalles."
+      ],
+      "textSamples": 12,
+      "contrastFailures": [],
+      "minimumContrast": 12.0671
+    },
+    {
+      "width": 1440,
+      "view": "profile",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 56
+        },
+        {
+          "class": "react-flow__panel react-flow__minimap bottom right",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Matemáticas. Clic: detalles. Clic derecho: opciones.",
+        "Programación. Clic: detalles. Clic derecho: opciones.",
+        "Estructuras de Datos. Clic: detalles. Clic derecho: opciones.",
+        "Cálculo Diferencial. Clic: detalles. Clic derecho: opciones.",
+        "Algoritmos. Clic: detalles. Clic derecho: opciones.",
+        "Biología Computacional. Clic: detalles. Clic derecho: opciones.",
+        "Ciencias de la Computación. Clic: detalles. Clic derecho: opciones."
+      ],
+      "textSamples": 14,
+      "contrastFailures": [],
+      "minimumContrast": 12.0337
+    },
+    {
+      "width": 1440,
+      "view": "interaction-feedback",
+      "hoverOutline": "1px",
+      "focus": {
+        "visible": true,
+        "outline": "2px",
+        "outlineColor": "rgb(196, 181, 253)",
+        "cursor": "grab"
+      },
+      "selectedDetailVisible": true,
+      "profileSummaryVisible": false,
+      "led": {
+        "animation": "input-led-glow",
+        "borderWidth": "2px"
+      }
+    },
+    {
+      "width": 1440,
+      "view": "native-context-menu",
+      "visible": true,
+      "inside": true
+    },
+    {
+      "width": 1440,
+      "view": "hierarchy",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Ciencias de la Computación. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Inteligencia Artificial. Clic: detalles. Clic derecho: opciones.",
+        "Ingeniería de Software. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Machine Learning. Clic: detalles. Clic derecho: opciones.",
+        "Procesamiento de Lenguaje Natural. Clic: detalles. Clic derecho: opciones.",
+        "Visión por Computadora. Clic: detalles. Clic derecho: opciones.",
+        "Sistemas Inteligentes. Clic: detalles. Clic derecho: opciones.",
+        "Crear una alternativa de ejemplo",
+        "Aprendizaje supervisado. Clic: detalles. Clic derecho: opciones.",
+        "Aprendizaje por refuerzo. Clic: detalles. Clic derecho: opciones.",
+        "Aprendizaje profundo. Clic: detalles. Clic derecho: opciones.",
+        "Modelos predictivos. Clic: detalles. Clic derecho: opciones.",
+        "Ver artículos de ejemplo"
+      ],
+      "textSamples": 29,
+      "contrastFailures": [],
+      "minimumContrast": 8.9539
+    },
+    {
+      "width": 1440,
+      "view": "articles",
+      "nodeInternalTextOverflow": [],
+      "tools": [
+        {
+          "class": "react-flow__panel react-flow__controls vertical bottom left",
+          "gapFromDrawingPx": 12
+        }
+      ],
+      "titles": [
+        "Fundamentos de Aprendizaje supervisado (2023). Selecciona para ver detalles.",
+        "Aprendizaje supervisado: una revisión sistemática (2022). Selecciona para ver detalles.",
+        "Nuevas metodologías en Aprendizaje supervisado (2024). Selecciona para ver detalles.",
+        "Aplicaciones prácticas de Aprendizaje supervisado (2021). Selecciona para ver detalles.",
+        "Desafíos abiertos en Aprendizaje supervisado (2023). Selecciona para ver detalles.",
+        "Herramientas para Aprendizaje supervisado (2020). Selecciona para ver detalles."
+      ],
+      "textSamples": 12,
+      "contrastFailures": [],
+      "minimumContrast": 12.0671
+    }
+  ],
+  "failures": []
+}

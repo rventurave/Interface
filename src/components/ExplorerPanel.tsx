@@ -38,7 +38,7 @@ export default function ExplorerPanel({
 
       <div className="mt-6 lg:flex-1">
         {breadcrumb.length > 0 && (
-          <div className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-white/75">
+          <div className="exploration-path mb-4 flex flex-wrap items-center gap-1.5 text-sm text-white/75">
             {breadcrumb.map((item, index) => (
               <span key={item.id} className="flex min-w-0 max-w-full items-center gap-1.5">
                 {index > 0 && <span className="text-white/75">›</span>}
@@ -55,7 +55,8 @@ export default function ExplorerPanel({
         )}
 
         {selectedNode && meta ? (
-          <div className="glow-card p-5">
+          <div className="glow-card context-card p-5">
+            <p className="selection-kicker">Tema seleccionado</p>
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <p className="text-sm font-medium tracking-normal" style={{ color: meta.color }}>

@@ -47,7 +47,7 @@
         }
 
         .node-pulse {
-            animation: ringPulse 2.5s infinite;
+            animation: none;
         }
 
         @keyframes ringPulse {
@@ -171,6 +171,26 @@
             stroke-linejoin: round;
             vector-effect: non-scaling-stroke;
         }
+
+        /* Existing reviewed/selected flags remain unchanged; only presentation changes. */
+        aside > div:first-child { border-left: 3px solid #a78bfa; }
+        .node-group:has(.node-circle[stroke-width="3"]) .node-label {
+            text-decoration: underline;
+            font-weight: 700;
+        }
+        #chat-messages > .items-start > div::before,
+        #chat-messages > .items-end > div::before {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+        #chat-messages > .items-start > div::before { content: "Asistente · Demo"; }
+        #chat-messages > .items-end > div::before { content: "Tú"; }
+        @media (prefers-reduced-motion: reduce) {
+            .node-circle, #context-menu { transition: none; }
+        }
     </style>
 </head>
 <body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
@@ -204,7 +224,7 @@
             <!-- ACTIVE NODE HEADER -->
             <div class="p-3.5 border-b border-zinc-800/80 bg-zinc-900/40">
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Área Seleccionada</span>
+                    <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Tema seleccionado</span>
                     <span id="active-node-recommendation" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50">
                         Rec: 94%
                     </span>
@@ -295,7 +315,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <div class="w-3.5 h-3.5 rounded-full border-2 border-emerald-400 border-dashed"></div>
-                        <span>Borde = Nuevo / No revisado</span>
+                        <span>Borde discontinuo = Sin revisar</span>
                     </div>
                     <div class="flex items-center gap-1.5 text-zinc-500">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
@@ -356,7 +376,7 @@
         <div class="py-1">
             <button id="ctx-expand-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-200">
                 <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-                <span>Ver sugerencias de subtemas</span>
+                <span>Subtemas</span>
             </button>
             <button id="ctx-toggle-review-btn" class="w-full text-left px-3 py-1.5 hover:bg-zinc-800 flex items-center gap-2 text-zinc-300">
                 <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -366,7 +386,7 @@
         <div class="py-1">
             <button id="ctx-delete-btn" class="w-full text-left px-3 py-1.5 hover:bg-red-950/40 hover:text-red-300 flex items-center gap-2 text-red-400">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                <span>Eliminar tema del mapa</span>
+                <span>Eliminar</span>
             </button>
         </div>
     </div>

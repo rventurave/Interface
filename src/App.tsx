@@ -18,8 +18,8 @@ export default function App() {
 
       <button
         type="button"
-        aria-label="Cuenta"
-        title="Cuenta"
+        aria-label="Cuenta (demo)"
+        title="Cuenta (demo)"
         className="fixed right-4 top-1 z-30 lg:bottom-4 lg:left-4 lg:right-auto lg:top-auto flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 shadow-lg transition-colors hover:text-white"
       >
         <AccountIcon className="h-6 w-6" />

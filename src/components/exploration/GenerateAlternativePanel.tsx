@@ -21,7 +21,7 @@ export default function GenerateAlternativePanel({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="alternative-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
       onClick={onClose}
     >
       <div
@@ -32,7 +32,7 @@ export default function GenerateAlternativePanel({
           <div>
             <h3 className="text-base font-semibold">Crear alternativa</h3>
             <p className="mt-1 text-sm text-white/75">
-              Describe qué quieres investigar. La creación es simulada.
+              Describe qué quieres investigar. <strong className="font-semibold text-violet-200">La creación es simulada.</strong>
             </p>
           </div>
           <button aria-label="Cerrar alternativa" title="Cerrar alternativa" onClick={onClose} className="shrink-0 text-white/75 hover:text-white">
@@ -41,7 +41,7 @@ export default function GenerateAlternativePanel({
         </div>
 
         <p className="mt-4 text-sm font-medium text-white/75">
-          Tema de referencia: <span className="text-white/90">{parentLabel}</span>
+          Tema de referencia: <span className="font-semibold text-white/90">{parentLabel}</span>
         </p>
 
         <textarea

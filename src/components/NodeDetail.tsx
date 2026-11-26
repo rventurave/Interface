@@ -11,7 +11,8 @@ export default function NodeDetail({ node, onClose }: NodeDetailProps) {
   const color = KIND_COLORS[data.kind];
 
   return (
-    <div className="glow-card p-5">
+    <div className="glow-card context-card p-5">
+      <p className="selection-kicker">Elemento seleccionado</p>
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="text-sm font-medium tracking-normal text-white/75">

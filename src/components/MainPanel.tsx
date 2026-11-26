@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CareerCard from './CareerCard';
 import ChatInput from './ChatInput';
+import ChatScrollArea from './ChatScrollArea';
 import QuestionCards from './QuestionCards';
 import { BrainLogo } from './Logo';
 import { pickQuestions, type Question } from '../data/questions';
@@ -72,7 +73,7 @@ export default function MainPanel({
   };
 
   return (
-    <section className="flex min-h-screen flex-col px-6 py-6 lg:h-full lg:min-h-0 lg:px-12 lg:py-8">
+    <section className="research-conversation flex min-h-screen flex-col px-6 py-6 lg:h-full lg:min-h-0 lg:px-12 lg:py-8">
       <header className="flex items-center gap-2.5">
         <BrainLogo className="h-6 w-6" />
         <span className="text-sm font-medium text-white/70">IA de investigación · Demo</span>
@@ -82,13 +83,17 @@ export default function MainPanel({
         Descubre tu <span className="text-violet-300">tema de investigación</span>
       </h1>
 
-      <div className="min-h-0 flex-1 overflow-y-auto py-6">
+      <ChatScrollArea
+        className="conversation-body min-h-0 flex-1 overflow-y-auto py-6"
+        activityKey={messages.length}
+      >
         {messages.length > 0 ? (
           <div className="flex flex-col gap-2">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`max-w-[85%] break-words rounded-2xl px-4 py-3 text-base ${
+                data-speaker={message.role}
+                className={`conversation-message max-w-[85%] break-words rounded-2xl px-4 py-3 text-base ${
                   message.role === 'user'
                     ? 'self-end bg-primary/20 text-white'
                     : 'self-start border border-white/10 bg-white/5 text-white/75'
@@ -99,11 +104,11 @@ export default function MainPanel({
             ))}
           </div>
         ) : (
-          <p className="mx-auto max-w-md text-center text-base text-white/75">
+          <p className="conversation-intro mx-auto max-w-md text-center text-base text-white/75">
             Comparte tus intereses para empezar.
           </p>
         )}
-      </div>
+      </ChatScrollArea>
 
       <QuestionCards
         questions={questions}

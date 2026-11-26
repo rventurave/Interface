@@ -17,7 +17,7 @@ export default function QuestionCards({
   onReload,
 }: QuestionCardsProps) {
   return (
-    <div>
+    <div className="question-group">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium tracking-normal text-white/75">
           Elige una pregunta
@@ -43,14 +43,15 @@ export default function QuestionCards({
               key={question.id}
               type="button"
               onClick={() => onSelect(question.id)}
-              className={`flex max-w-full items-center gap-2 rounded-2xl border px-3 py-2.5 text-left text-sm transition-all duration-300 ${
+              aria-pressed={isSelected}
+              className={`question-choice flex max-w-full items-center gap-2 rounded-2xl border px-3 py-2.5 text-left text-sm transition-all duration-300 ${
                 isSelected
-                  ? 'border-primary/70 bg-primary/15 text-white'
+                  ? 'question-choice--selected border-primary/70 bg-primary/15 text-white'
                   : 'border-white/10 bg-white/[0.03] text-white/70 hover:border-primary/40 hover:text-white'
               } ${isLeaving ? 'pointer-events-none scale-95 opacity-0' : ''}`}
             >
               <span
-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                className={`question-dot h-1.5 w-1.5 shrink-0 rounded-full ${
                   isSelected ? 'bg-primary' : 'bg-white/30'
                 }`}
               />

@@ -12,19 +12,19 @@ function RootNode({ data }: NodeProps) {
   const { label, isSelected, important } = data as unknown as RootData;
 
   return (
-    <div className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+    <div data-selected={isSelected} className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
       <div
-        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
+        className="map-circle relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
         style={{
           boxShadow: isSelected
-            ? '0 0 28px rgba(139,92,246,0.7)'
-            : '0 0 20px rgba(139,92,246,0.4)',
+            ? '0 0 20px rgba(139,92,246,0.6)'
+            : '0 0 8px rgba(139,92,246,0.25)',
         }}
       >
         {label}
       </div>
       {important && (
-        <span className="absolute -left-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-black shadow">
+        <span title="Marcado como importante" className="absolute -left-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-black shadow">
           ★
         </span>
       )}

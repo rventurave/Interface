@@ -1,0 +1,101 @@
+{
+  "date": "2026-11-19T17:44:16.180Z",
+  "records": [
+    {
+      "width": 320,
+      "name": "question-toggle",
+      "on": "true",
+      "off": "false",
+      "pass": true
+    },
+    {
+      "width": 320,
+      "name": "microphone-existing-state",
+      "pressed": "true",
+      "feedback": "ℹ Micrófono en demo: no se graba audio.",
+      "removedWhenOff": true,
+      "pass": true
+    },
+    {
+      "width": 320,
+      "name": "led-and-motion-preference",
+      "led": {
+        "animation": "input-led-glow",
+        "border": "2px"
+      },
+      "reduced": "none",
+      "pass": true
+    },
+    {
+      "width": 320,
+      "name": "context-menu",
+      "heading": "Inteligencia Artificial",
+      "inside": true,
+      "pass": true
+    },
+    {
+      "width": 320,
+      "name": "short-modal-existing-guard",
+      "height": 360,
+      "bounds": {
+        "top": 16,
+        "bottom": 344,
+        "left": 16,
+        "right": 304,
+        "inside": true,
+        "scrollable": true
+      },
+      "emptyDisabled": true,
+      "filledEnabled": true,
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "name": "question-toggle",
+      "on": "true",
+      "off": "false",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "name": "microphone-existing-state",
+      "pressed": "true",
+      "feedback": "ℹ Micrófono en demo: no se graba audio.",
+      "removedWhenOff": true,
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "name": "led-and-motion-preference",
+      "led": {
+        "animation": "input-led-glow",
+        "border": "2px"
+      },
+      "reduced": "none",
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "name": "context-menu",
+      "heading": "Inteligencia Artificial",
+      "inside": true,
+      "pass": true
+    },
+    {
+      "width": 1440,
+      "name": "short-modal-existing-guard",
+      "height": 360,
+      "bounds": {
+        "top": 16,
+        "bottom": 344,
+        "left": 496,
+        "right": 944,
+        "inside": true,
+        "scrollable": true
+      },
+      "emptyDisabled": true,
+      "filledEnabled": true,
+      "pass": true
+    }
+  ]
+}

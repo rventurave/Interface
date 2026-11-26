@@ -12,14 +12,14 @@ function ArticlesNode({ data }: NodeProps) {
   const { label, count, isSelected } = data as unknown as ArticlesNodeData;
 
   return (
-    <div className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
+    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
       <div className="relative">
         <div
-          className="flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
+          className="map-rect flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
           style={{
             boxShadow: isSelected
-              ? '0 0 22px rgba(245,158,11,0.6)'
-              : '0 0 12px rgba(245,158,11,0.3)',
+              ? '0 0 14px rgba(245,158,11,0.5)'
+              : '0 0 6px rgba(245,158,11,0.15)',
           }}
         >
           <DocumentIcon className="h-5 w-5 shrink-0" />

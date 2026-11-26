@@ -1,0 +1,638 @@
+--- antes/src/App.tsx
++++ despues/src/App.tsx
+@@ -18,8 +18,8 @@
+ 
+       <button
+         type="button"
+-        aria-label="Cuenta"
+-        title="Cuenta"
++        aria-label="Cuenta (demo)"
++        title="Cuenta (demo)"
+         className="fixed right-4 top-1 z-30 lg:bottom-4 lg:left-4 lg:right-auto lg:top-auto flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 shadow-lg transition-colors hover:text-white"
+       >
+         <AccountIcon className="h-6 w-6" />
+--- antes/src/components/ArticlesView.tsx
++++ despues/src/components/ArticlesView.tsx
+@@ -102,6 +102,11 @@
+             <span className="text-sm font-medium text-white/70">Artículos de ejemplo</span>
+           </header>
+ 
++          <p className="article-topic-context mt-4 rounded-xl border border-primary/25 bg-primary/10 px-3 py-2 text-sm text-white/75">
++            Tema de investigación<br />
++            <strong className="break-words text-white">{topic.topicLabel}</strong>
++          </p>
++
+           <div className="mt-6 lg:flex-1 lg:overflow-y-auto">
+             <ArticleDetails article={selected} topicLabel={topic.topicLabel} />
+           </div>
+--- antes/src/components/ChatInput.tsx
++++ despues/src/components/ChatInput.tsx
+@@ -24,39 +24,47 @@
+   };
+ 
+   return (
+-    <form
+-      onSubmit={handleSubmit}
+-      className="glow-card input-feedback flex items-center gap-2.5 rounded-full px-3.5 py-2.5"
+-    >
+-      <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
+-      <input
+-        aria-label="Intereses o respuesta a la pregunta elegida"
+-        value={value}
+-        onChange={(event) => onChange(event.target.value)}
+-        placeholder={placeholder}
+-        className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/75"
+-      />
+-      <button
+-        type="button"
+-        onClick={onToggleListening}
+-        aria-label="Activar micrófono"
+-        title="Activar micrófono"
+-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+-          listening
+-            ? 'border-danger/60 bg-danger/15 text-danger'
+-            : 'border-white/10 bg-white/5 text-white/70 hover:text-white'
+-        }`}
++    <div className="chat-field-group">
++      <form
++        onSubmit={handleSubmit}
++        className="glow-card input-feedback flex items-center gap-2.5 rounded-full px-3.5 py-2.5"
+       >
+-        <MicIcon className="h-4 w-4" />
+-      </button>
+-      <button
+-        type="submit"
+-        aria-label="Enviar"
+-        title="Enviar"
+-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-[0_0_16px_rgba(139,92,246,0.5)] transition-colors hover:bg-primary/90"
+-      >
+-        <SendIcon className="h-4 w-4" />
+-      </button>
+-    </form>
++        <AIIcon className="h-5 w-5 shrink-0 text-violet-300" />
++        <input
++          aria-label="Intereses o respuesta a la pregunta elegida"
++          value={value}
++          onChange={(event) => onChange(event.target.value)}
++          placeholder={placeholder}
++          className="min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-white/75"
++        />
++        <button
++          type="button"
++          onClick={onToggleListening}
++          aria-label={listening ? 'Desactivar micrófono (demo)' : 'Activar micrófono (demo)'}
++          aria-pressed={listening}
++          title={listening ? 'Desactivar micrófono (demo)' : 'Activar micrófono (demo)'}
++          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
++            listening
++              ? 'border-danger/60 bg-danger/15 text-danger'
++              : 'border-white/10 bg-white/5 text-white/70 hover:text-white'
++          }`}
++        >
++          <MicIcon className="h-4 w-4" />
++        </button>
++        <button
++          type="submit"
++          aria-label="Enviar"
++          title="Enviar"
++          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-[0_0_16px_rgba(139,92,246,0.5)] transition-colors hover:bg-primary/90"
++        >
++          <SendIcon className="h-4 w-4" />
++        </button>
++      </form>
++      {listening && (
++        <p className="mic-feedback mt-2 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2 text-sm text-amber-200">
++          ℹ Micrófono en demo: no se graba audio.
++        </p>
++      )}
++    </div>
+   );
+ }
+--- antes/src/components/ExplorerPanel.tsx
++++ despues/src/components/ExplorerPanel.tsx
+@@ -38,7 +38,7 @@
+ 
+       <div className="mt-6 lg:flex-1">
+         {breadcrumb.length > 0 && (
+-          <div className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-white/75">
++          <div className="exploration-path mb-4 flex flex-wrap items-center gap-1.5 text-sm text-white/75">
+             {breadcrumb.map((item, index) => (
+               <span key={item.id} className="flex min-w-0 max-w-full items-center gap-1.5">
+                 {index > 0 && <span className="text-white/75">›</span>}
+@@ -55,7 +55,8 @@
+         )}
+ 
+         {selectedNode && meta ? (
+-          <div className="glow-card p-5">
++          <div className="glow-card context-card p-5">
++            <p className="selection-kicker">Tema seleccionado</p>
+             <div className="flex flex-wrap items-start justify-between gap-2">
+               <div>
+                 <p className="text-sm font-medium tracking-normal" style={{ color: meta.color }}>
+--- antes/src/components/MainPanel.tsx
++++ despues/src/components/MainPanel.tsx
+@@ -72,7 +72,7 @@
+   };
+ 
+   return (
+-    <section className="flex min-h-screen flex-col px-6 py-6 lg:h-full lg:min-h-0 lg:px-12 lg:py-8">
++    <section className="research-conversation flex min-h-screen flex-col px-6 py-6 lg:h-full lg:min-h-0 lg:px-12 lg:py-8">
+       <header className="flex items-center gap-2.5">
+         <BrainLogo className="h-6 w-6" />
+         <span className="text-sm font-medium text-white/70">IA de investigación · Demo</span>
+@@ -82,13 +82,14 @@
+         Descubre tu <span className="text-violet-300">tema de investigación</span>
+       </h1>
+ 
+-      <div className="min-h-0 flex-1 overflow-y-auto py-6">
++      <div className="conversation-body min-h-0 flex-1 overflow-y-auto py-6">
+         {messages.length > 0 ? (
+           <div className="flex flex-col gap-2">
+             {messages.map((message) => (
+               <div
+                 key={message.id}
+-                className={`max-w-[85%] break-words rounded-2xl px-4 py-3 text-base ${
++                data-speaker={message.role}
++                className={`conversation-message max-w-[85%] break-words rounded-2xl px-4 py-3 text-base ${
+                   message.role === 'user'
+                     ? 'self-end bg-primary/20 text-white'
+                     : 'self-start border border-white/10 bg-white/5 text-white/75'
+@@ -99,7 +100,7 @@
+             ))}
+           </div>
+         ) : (
+-          <p className="mx-auto max-w-md text-center text-base text-white/75">
++          <p className="conversation-intro mx-auto max-w-md text-center text-base text-white/75">
+             Comparte tus intereses para empezar.
+           </p>
+         )}
+--- antes/src/components/NodeDetail.tsx
++++ despues/src/components/NodeDetail.tsx
+@@ -11,7 +11,8 @@
+   const color = KIND_COLORS[data.kind];
+ 
+   return (
+-    <div className="glow-card p-5">
++    <div className="glow-card context-card p-5">
++      <p className="selection-kicker">Elemento seleccionado</p>
+       <div className="flex items-start justify-between gap-2">
+         <div>
+           <p className="text-sm font-medium tracking-normal text-white/75">
+--- antes/src/components/PreferenceNodeMenu.tsx
++++ despues/src/components/PreferenceNodeMenu.tsx
+@@ -28,13 +28,13 @@
+         }}
+       />
+       <div
+-        className="fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
++        className="context-menu fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
+         style={{
+           left: `clamp(12px, ${x}px, calc(100vw - min(15rem, calc(100vw - 1.5rem)) - 12px))`,
+           top: `clamp(12px, ${y}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`,
+         }}
+       >
+-        <p className="px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
++        <p className="context-menu-heading px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
+         <button
+           type="button"
+           onClick={onToggleImportant}
+--- antes/src/components/ProfileNode.tsx
++++ despues/src/components/ProfileNode.tsx
+@@ -24,14 +24,14 @@
+     <div className="map-profile-node flex flex-col items-center" style={{ width: 136 }} title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div className="relative">
+         <div
+-          className="flex items-center justify-center rounded-full border-2 text-center font-semibold transition-transform hover:scale-105"
++          className="map-circle relative flex items-center justify-center rounded-full border-2 text-center font-semibold transition-transform hover:scale-105"
+           style={{
+             width: size,
+             height: size,
+             color: style.text,
+             borderColor: color,
+             background: style.bg,
+-            boxShadow: `0 0 18px ${style.glow}`,
++            boxShadow: `0 0 8px ${style.glow}`,
+             borderWidth: important ? 3 : 2,
+             fontSize: 14,
+           }}
+@@ -43,7 +43,7 @@
+           )}
+         </div>
+         {important && (
+-          <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
++          <span title="Marcado como importante" className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
+             ★
+           </span>
+         )}
+--- antes/src/components/QuestionCards.tsx
++++ despues/src/components/QuestionCards.tsx
+@@ -17,7 +17,7 @@
+   onReload,
+ }: QuestionCardsProps) {
+   return (
+-    <div>
++    <div className="question-group">
+       <div className="flex items-center justify-between">
+         <span className="text-sm font-medium tracking-normal text-white/75">
+           Elige una pregunta
+@@ -43,14 +43,15 @@
+               key={question.id}
+               type="button"
+               onClick={() => onSelect(question.id)}
+-              className={`flex max-w-full items-center gap-2 rounded-2xl border px-3 py-2.5 text-left text-sm transition-all duration-300 ${
++              aria-pressed={isSelected}
++              className={`question-choice flex max-w-full items-center gap-2 rounded-2xl border px-3 py-2.5 text-left text-sm transition-all duration-300 ${
+                 isSelected
+-                  ? 'border-primary/70 bg-primary/15 text-white'
++                  ? 'question-choice--selected border-primary/70 bg-primary/15 text-white'
+                   : 'border-white/10 bg-white/[0.03] text-white/70 hover:border-primary/40 hover:text-white'
+               } ${isLeaving ? 'pointer-events-none scale-95 opacity-0' : ''}`}
+             >
+               <span
+-                className={`h-1.5 w-1.5 shrink-0 rounded-full ${
++                className={`question-dot h-1.5 w-1.5 shrink-0 rounded-full ${
+                   isSelected ? 'bg-primary' : 'bg-white/30'
+                 }`}
+               />
+--- antes/src/components/exploration/ArticleDetails.tsx
++++ despues/src/components/exploration/ArticleDetails.tsx
+@@ -11,15 +11,15 @@
+ }: ArticleDetailsProps) {
+   if (!article) {
+     return (
+-      <div className="glow-card p-5 text-sm text-white/75">
+-        Selecciona un artículo para ver sus detalles. Tema:{' '}
+-        <span className="text-white/80">{topicLabel}</span>.
++      <div className="glow-card p-5 text-sm text-white/75" aria-label={`Artículos sobre ${topicLabel}`}>
++        Selecciona un artículo del mapa para ver sus detalles.
+       </div>
+     );
+   }
+ 
+   return (
+-    <div className="glow-card p-5">
++    <div className="glow-card context-card p-5" aria-label={`Artículos sobre ${topicLabel}`}>
++      <p className="selection-kicker">Artículo seleccionado</p>
+       <p className="text-sm font-medium tracking-normal text-white/75">
+         {article.venue} · {article.year}
+       </p>
+--- antes/src/components/exploration/ArticleNode.tsx
++++ despues/src/components/exploration/ArticleNode.tsx
+@@ -14,16 +14,16 @@
+     relevance >= 0.8 ? '#22C55E' : relevance >= 0.5 ? '#3B82F6' : '#8B5CF6';
+ 
+   return (
+-    <div className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
++    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title={`${title} (${year}). Selecciona para ver detalles.`}>
+       <div className="relative">
+         <div
+-          className="flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
++          className="map-rect flex min-h-24 w-[168px] items-center justify-center rounded-lg border-2 p-2 text-center text-sm font-medium leading-snug text-white"
+           style={{
+             borderColor: color,
+             background: '#14101f',
+             boxShadow: isSelected
+-              ? `0 0 20px ${color}`
+-              : `0 0 10px ${color}55`,
++              ? `0 0 14px ${color}`
++              : `0 0 5px ${color}33`,
+           }}
+         >
+           {title}
+--- antes/src/components/exploration/ArticlesNode.tsx
++++ despues/src/components/exploration/ArticlesNode.tsx
+@@ -12,14 +12,14 @@
+   const { label, count, isSelected } = data as unknown as ArticlesNodeData;
+ 
+   return (
+-    <div className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
++    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title="Ver artículos de ejemplo">
+       <div className="relative">
+         <div
+-          className="flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
++          className="map-rect flex h-16 w-40 items-center justify-center gap-1.5 rounded-xl border-2 border-amber-400/80 bg-amber-400/10 px-3 text-center text-sm font-semibold text-amber-300"
+           style={{
+             boxShadow: isSelected
+-              ? '0 0 22px rgba(245,158,11,0.6)'
+-              : '0 0 12px rgba(245,158,11,0.3)',
++              ? '0 0 14px rgba(245,158,11,0.5)'
++              : '0 0 6px rgba(245,158,11,0.15)',
+           }}
+         >
+           <DocumentIcon className="h-5 w-5 shrink-0" />
+--- antes/src/components/exploration/GenerateAlternativePanel.tsx
++++ despues/src/components/exploration/GenerateAlternativePanel.tsx
+@@ -21,7 +21,7 @@
+ 
+   return (
+     <div
+-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
++      className="alternative-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+       onClick={onClose}
+     >
+       <div
+@@ -32,7 +32,7 @@
+           <div>
+             <h3 className="text-base font-semibold">Crear alternativa</h3>
+             <p className="mt-1 text-sm text-white/75">
+-              Describe qué quieres investigar. La creación es simulada.
++              Describe qué quieres investigar. <strong className="font-semibold text-violet-200">La creación es simulada.</strong>
+             </p>
+           </div>
+           <button aria-label="Cerrar alternativa" title="Cerrar alternativa" onClick={onClose} className="shrink-0 text-white/75 hover:text-white">
+@@ -41,7 +41,7 @@
+         </div>
+ 
+         <p className="mt-4 text-sm font-medium text-white/75">
+-          Tema de referencia: <span className="text-white/90">{parentLabel}</span>
++          Tema de referencia: <span className="font-semibold text-white/90">{parentLabel}</span>
+         </p>
+ 
+         <textarea
+--- antes/src/components/exploration/LevelNode.tsx
++++ despues/src/components/exploration/LevelNode.tsx
+@@ -18,28 +18,28 @@
+   const meta = LEVEL_META[level];
+ 
+   return (
+-    <div className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
++    <div data-selected={isSelected} className="map-interactive-node flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div className="relative">
+         <div
+-          className="flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
++          className="map-circle relative flex h-14 w-14 items-center justify-center rounded-full border-2 text-center text-sm font-semibold"
+           style={{
+             color: meta.text,
+             borderColor: meta.color,
+             background: '#14101f',
+             boxShadow: isSelected
+-              ? `0 0 22px ${meta.color}`
+-              : `0 0 10px ${meta.color}55`,
++              ? `0 0 16px ${meta.color}`
++              : `0 0 5px ${meta.color}33`,
+           }}
+         >
+           {affinity != null ? `${affinity}%` : label.charAt(0).toUpperCase()}
+         </div>
+         {isCustom && (
+-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-xs text-white/70">
+-            ★
++          <span title="Alternativa personalizada (demo)" aria-label="Alternativa personalizada" className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white/10 text-xs text-white/70">
++            P
+           </span>
+         )}
+         {important && (
+-          <span className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
++          <span title="Marcado como importante" className="absolute -left-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-400 text-xs font-bold text-black shadow">
+             ★
+           </span>
+         )}
+--- antes/src/components/exploration/NodeChat.tsx
++++ despues/src/components/exploration/NodeChat.tsx
+@@ -43,7 +43,7 @@
+     <div className="flex w-full flex-col">
+       {nodeLabel && (
+         <div className="mb-3 flex items-center justify-between rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-violet-300">
+-          <span className="break-words">Sobre: {nodeLabel}</span>
++          <span className="break-words">Tema: <strong>{nodeLabel}</strong></span>
+         </div>
+       )}
+ 
+@@ -52,7 +52,8 @@
+           {messages.map((message) => (
+             <div
+               key={message.id}
+-              className={`max-w-[90%] break-words rounded-2xl px-3 py-2 text-base ${
++              data-speaker={message.role}
++              className={`conversation-message max-w-[90%] break-words rounded-2xl px-3 py-2 text-base ${
+                 message.role === 'user'
+                   ? 'self-end bg-primary/20 text-white'
+                   : 'self-start border border-white/10 bg-white/5 text-white/75'
+@@ -84,8 +85,9 @@
+         <button
+           type="button"
+           onClick={() => setListening((prev) => !prev)}
+-          aria-label="Activar micrófono"
+-          title="Activar micrófono"
++          aria-label={listening ? 'Desactivar micrófono (demo)' : 'Activar micrófono (demo)'}
++          aria-pressed={listening}
++          title={listening ? 'Desactivar micrófono (demo)' : 'Activar micrófono (demo)'}
+           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition-colors ${
+             listening
+               ? 'border-danger/60 bg-danger/15 text-danger'
+@@ -104,6 +106,11 @@
+           <SendIcon className="h-4 w-4" />
+         </button>
+       </form>
++      {listening && (
++        <p className="mic-feedback mt-2 rounded-lg border border-amber-300/30 bg-amber-300/5 px-3 py-2 text-sm text-amber-200">
++          ℹ Micrófono en demo: no se graba audio.
++        </p>
++      )}
+     </div>
+   );
+ }
+--- antes/src/components/exploration/NodeMenu.tsx
++++ despues/src/components/exploration/NodeMenu.tsx
+@@ -37,13 +37,13 @@
+         }}
+       />
+       <div
+-        className="fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
++        className="context-menu fixed z-50 max-h-[min(20rem,calc(100dvh-1.5rem))] w-60 max-w-[calc(100vw-1.5rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#14101f] p-1 shadow-2xl"
+         style={{
+           left: `clamp(12px, ${x}px, calc(100vw - min(15rem, calc(100vw - 1.5rem)) - 12px))`,
+           top: `clamp(12px, ${y}px, calc(100dvh - min(20rem, calc(100dvh - 1.5rem)) - 12px))`,
+         }}
+       >
+-        <p className="px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
++        <p className="context-menu-heading px-3 py-2 text-sm font-semibold text-white/75">{label}</p>
+         <button type="button" className={itemClass} onClick={onToggleExpand}>
+           {isExpanded ? 'Ocultar subtemas' : 'Ver subtemas'}
+         </button>
+--- antes/src/components/exploration/RootNode.tsx
++++ despues/src/components/exploration/RootNode.tsx
+@@ -12,19 +12,19 @@
+   const { label, isSelected, important } = data as unknown as RootData;
+ 
+   return (
+-    <div className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
++    <div data-selected={isSelected} className="map-interactive-node relative flex flex-col items-center" title={`${label}. Clic: detalles. Clic derecho: opciones.`}>
+       <div
+-        className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
++        className="map-circle relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-primary bg-primary/20 p-4 text-center text-sm font-bold leading-snug text-white"
+         style={{
+           boxShadow: isSelected
+-            ? '0 0 28px rgba(139,92,246,0.7)'
+-            : '0 0 20px rgba(139,92,246,0.4)',
++            ? '0 0 20px rgba(139,92,246,0.6)'
++            : '0 0 8px rgba(139,92,246,0.25)',
+         }}
+       >
+         {label}
+       </div>
+       {important && (
+-        <span className="absolute -left-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-black shadow">
++        <span title="Marcado como importante" className="absolute -left-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-amber-400 text-sm font-bold text-black shadow">
+           ★
+         </span>
+       )}
+--- antes/src/index.css
++++ despues/src/index.css
+@@ -189,3 +189,100 @@
+   outline-offset: 3px;
+   border-radius: 10px;
+ }
++
++/* Attention: keep prompts together, identify existing states, and quiet decoration. */
++.research-conversation:has(.conversation-intro) .conversation-body {
++  flex: none;
++}
++
++.question-choice--selected {
++  outline: 2px solid #c4b5fd;
++  outline-offset: 2px;
++}
++
++.question-choice--selected .question-dot {
++  width: 1rem;
++  height: 1rem;
++  background: transparent;
++  color: #ddd6fe;
++}
++
++.question-choice--selected .question-dot::after {
++  content: "✓";
++  display: block;
++  font-weight: 700;
++  line-height: 1rem;
++}
++
++.conversation-message::before {
++  display: block;
++  margin-bottom: 0.25rem;
++  font-size: 0.875rem;
++  line-height: 1.5;
++  font-weight: 600;
++}
++
++.conversation-message[data-speaker="user"]::before { content: "Tú"; }
++.conversation-message[data-speaker="ai"]::before { content: "Asistente · Demo"; }
++
++.context-card { border-color: rgb(196 181 253 / 65%); }
++.selection-kicker {
++  margin-bottom: 0.75rem;
++  color: #ddd6fe;
++  font-size: 0.875rem;
++  font-weight: 600;
++}
++.selection-kicker::before { content: "✓ "; }
++
++.exploration-path > span:last-child button {
++  color: #fff;
++  font-weight: 600;
++  text-decoration: underline;
++  text-underline-offset: 3px;
++}
++
++.map-interactive-node[data-selected="true"] .map-circle,
++.react-flow__node.selected .map-profile-node .map-circle {
++  outline: 2px solid #c4b5fd;
++  outline-offset: 3px;
++}
++
++.map-interactive-node[data-selected="true"] .map-circle::after,
++.react-flow__node.selected .map-profile-node .map-circle::after {
++  content: "✓";
++  position: absolute;
++  left: -6px;
++  bottom: -2px;
++  display: grid;
++  place-items: center;
++  width: 16px;
++  height: 16px;
++  border-radius: 50%;
++  background: #6d28d9;
++  color: #fff;
++  font-size: 11px;
++  line-height: 1;
++  font-weight: 700;
++}
++
++.map-interactive-node[data-selected="true"] .map-node-label,
++.react-flow__node.selected .map-profile-node .map-node-label {
++  text-decoration: underline;
++  text-underline-offset: 3px;
++}
++
++.map-interactive-node[data-selected="true"] .map-rect {
++  outline: 3px double #c4b5fd;
++  outline-offset: 3px;
++}
++
++.map-frame--profile .react-flow__edge:not(.selected) .react-flow__edge-path {
++  opacity: 0.7 !important;
++}
++
++.context-menu-heading { border-bottom: 1px solid rgb(255 255 255 / 15%); }
++.alternative-overlay { background: rgb(0 0 0 / 80%); backdrop-filter: blur(3px); }
++
++@media (prefers-reduced-motion: reduce) {
++  .question-choice, .map-circle { transition: none; }
++}
+--- antes/investigraph_explorador_minimalista_de_investigaci_n.html
++++ despues/investigraph_explorador_minimalista_de_investigaci_n.html
+@@ -47,7 +47,7 @@
+         }
+ 
+         .node-pulse {
+-            animation: ringPulse 2.5s infinite;
++            animation: none;
+         }
+ 
+         @keyframes ringPulse {
+@@ -171,6 +171,26 @@
+             stroke-linejoin: round;
+             vector-effect: non-scaling-stroke;
+         }
++
++        /* Existing reviewed/selected flags remain unchanged; only presentation changes. */
++        aside > div:first-child { border-left: 3px solid #a78bfa; }
++        .node-group:has(.node-circle[stroke-width="3"]) .node-label {
++            text-decoration: underline;
++            font-weight: 700;
++        }
++        #chat-messages > .items-start > div::before,
++        #chat-messages > .items-end > div::before {
++            display: block;
++            margin-bottom: 0.25rem;
++            font-size: 0.875rem;
++            line-height: 1.5;
++            font-weight: 600;
++        }
++        #chat-messages > .items-start > div::before { content: "Asistente · Demo"; }
++        #chat-messages > .items-end > div::before { content: "Tú"; }
++        @media (prefers-reduced-motion: reduce) {
++            .node-circle, #context-menu { transition: none; }
++        }
+     </style>
+ </head>
+ <body class="h-full w-full overflow-hidden flex flex-col bg-[#09090b] text-zinc-200">
+@@ -204,7 +224,7 @@
+             <!-- ACTIVE NODE HEADER -->
+             <div class="p-3.5 border-b border-zinc-800/80 bg-zinc-900/40">
+                 <div class="flex items-center justify-between mb-1">
+-                    <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Área Seleccionada</span>
++                    <span class="text-[10px] font-mono tracking-wider uppercase text-zinc-500">Tema seleccionado</span>
+                     <span id="active-node-recommendation" class="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700/50">
+                         Rec: 94%
+                     </span>
+@@ -295,7 +315,7 @@
+                     </div>
+                     <div class="flex items-center gap-2">
+                         <div class="w-3.5 h-3.5 rounded-full border-2 border-emerald-400 border-dashed"></div>
+-                        <span>Borde = Nuevo / No revisado</span>
++                        <span>Borde discontinuo = Sin revisar</span>
+                     </div>
+                     <div class="flex items-center gap-1.5 text-zinc-500">
+                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
